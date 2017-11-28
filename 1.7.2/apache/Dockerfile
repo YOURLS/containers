@@ -1,0 +1,47 @@
+FROM php:5.6-apache
+
+# install the PHP extensions we need
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+		bzip2 \
+		libcurl4-openssl-dev \
+		libmemcached-dev \
+		libxml2-dev \
+    ; \
+    rm -rf /var/lib/apt/lists/*; \
+    \
+    docker-php-ext-install mbstring opcache pdo pdo_mysql
+
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+RUN a2enmod rewrite expires
+
+VOLUME /var/www/html
+
+ENV YOURLS_VERSION 1.7.2
+#ENV YOURLS_SHA256 %%SHA256%%
+
+RUN set -ex; \
+	curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \
+	echo "YOURLS_SHA256 *yourls.tar.gz" | sha256sum -c -; \
+# upstream tarballs include ./YOURLS-${YOURLS_VERSION}/ so this gives us /usr/src/YOURLS-${YOURLS_VERSION}
+	tar -xzf yourls.tar.gz -C /usr/src/; \
+# move back to a common /usr/src/yourls
+	mv "/usr/src/YOURLS-${YOURLS_VERSION}" /usr/src/yourls; \
+	rm yourls.tar.gz
+
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["apache2-foreground"]

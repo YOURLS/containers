@@ -34,5 +34,4 @@ for variant in apache fpm; do
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
-printf "$travis"
 echo "$travis" > .travis.yml

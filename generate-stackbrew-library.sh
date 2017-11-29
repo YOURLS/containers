@@ -39,7 +39,7 @@ dirCommit() {
 cat <<-EOH
 # this file is generated via https://github.com/YOURLS/docker-yourls/blob/$(fileCommit "$self")/$self
 
-Maintainers: YOURLS <team@yourls.org> (@YOURLS),
+Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)
 GitRepo: https://github.com/YOURLS/docker-yourls.git
 EOH

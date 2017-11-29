@@ -2,7 +2,7 @@
 set -eu
 
 declare -A aliases=(
-	[1.7.2]='1.7.2 latest'
+	[1.7.2]='1.7 1 latest'
 )
 
 self="$(basename "$BASH_SOURCE")"
@@ -39,7 +39,8 @@ dirCommit() {
 cat <<-EOH
 # this file is generated via https://github.com/YOURLS/docker-yourls/blob/$(fileCommit "$self")/$self
 
-Maintainers: YOURLS <team@yourls.org> (@YOURLS)
+Maintainers: YOURLS <team@yourls.org> (@YOURLS),
+             Léo Colombaro <git@colombaro.fr> (@LeoColomb)
 GitRepo: https://github.com/YOURLS/docker-yourls.git
 EOH
 

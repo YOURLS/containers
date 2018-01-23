@@ -81,6 +81,9 @@ if [ "$haveConfig" ]; then
     if [ ! -e /var/www/html/user/config.php ]; then
         cp /var/www/html/config-docker.php /var/www/html/user/config.php
         chown www-data:www-data /var/www/html/user/config.php
+        if [ "${YOURLS_USER}" -a "${YOURLS_PASS}" ]; then
+          sed -i "s/  getenv('YOURLS_USER') ? getenv('YOURLS_USER') : 'root' => getenv('YOURLS_PASS') ? getenv('YOURLS_PASS') : 'blah',/  '${YOURLS_USER}' => '${YOURLS_PASS}',/g" /var/www/html/user/config.php
+        fi
     fi
 
     TERM=dumb php -- <<'EOPHP'

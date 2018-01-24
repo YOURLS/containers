@@ -12,7 +12,7 @@ RUN set -ex; \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \
-    docker-php-ext-install mbstring opcache pdo pdo_mysql
+    docker-php-ext-install mbstring opcache pdo pdo_mysql mysqli
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -41,6 +41,7 @@ RUN set -ex; \
 	rm yourls.tar.gz
 
 COPY docker-entrypoint.sh /usr/local/bin/
+COPY config-docker.php /var/www/html/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]

@@ -1,9 +1,9 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 if [ ! -e /var/www/html/yourls-loader.php ]; then
 	tar cf - --one-file-system -C /usr/src/yourls . | tar xf -
-	chown -R www-data /var/www/html
+	chown -R www-data:www-data /var/www/html
 fi
 
 # if not specified, let's use the default

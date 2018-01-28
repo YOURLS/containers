@@ -8,7 +8,11 @@ fi
 
 # if not specified, let's use the default
 : "${YOURLS_DB_USER:=mysql}"
-: "${YOURLS_DB_PASS:=}"
+if [ "$YOURLS_DB_USER" = 'root' ]; then
+    : "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD:-}}"
+else
+    : "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_PASSWORD:-}}"
+fi
 : "${YOURLS_DB_NAME:=yourls}"
 # if not specified, let's generate a random value
 : "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"

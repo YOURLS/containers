@@ -18,6 +18,8 @@ if [ ! -e /var/www/html/user/config.php ]; then
     chown www-data:www-data /var/www/html/user/config.php
 fi
 
+: "${YOURLS_USER:=}"
+: "${YOURLS_PASS:=}"
 if [ "${YOURLS_USER}" -a "${YOURLS_PASS}" ]; then
     sed -i "s/  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),/  '${YOURLS_USER}' => '${YOURLS_PASS}',/g" /var/www/html/user/config.php
 fi

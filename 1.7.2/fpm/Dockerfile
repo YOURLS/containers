@@ -38,7 +38,8 @@ RUN set -ex; \
 	tar -xzf yourls.tar.gz -C /usr/src/; \
 # move back to a common /usr/src/yourls
 	mv "/usr/src/YOURLS-${YOURLS_VERSION}" /usr/src/yourls; \
-	rm yourls.tar.gz
+	rm yourls.tar.gz; \
+	chown -R www-data:www-data /usr/src/yourls
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY config-docker.php /var/www/html/

@@ -1,4 +1,4 @@
-FROM php:5.6-fpm-alpine
+FROM php:7.2-fpm-alpine
 
 # install the PHP extensions we need
 RUN set -ex; \

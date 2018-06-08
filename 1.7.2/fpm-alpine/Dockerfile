@@ -1,4 +1,4 @@
-FROM php:5.6-%%VARIANT%%
+FROM php:5.6-fpm-alpine
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -14,11 +14,12 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
-%%VARIANT_EXTRAS%%
+
+RUN apk add --no-cache bash
 
 VOLUME /var/www/html
 
-ENV YOURLS_VERSION %%VERSION%%
+ENV YOURLS_VERSION 1.7.2
 #ENV YOURLS_SHA256 %%SHA256%%
 
 RUN set -ex; \
@@ -35,4 +36,4 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY config-docker.php /var/www/html/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["%%CMD%%"]
+CMD ["php-fpm"]

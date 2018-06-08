@@ -2,6 +2,7 @@ language: bash
 services: docker
 
 env:
+  - VERSION=1.7.2 VARIANT=fpm-alpine
   - VERSION=1.7.2 VARIANT=fpm
   - VERSION=1.7.2 VARIANT=apache
 

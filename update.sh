@@ -31,10 +31,6 @@ for variant in apache fpm fpm-alpine; do
         -e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
         "$current/$variant/Dockerfile"
 
-    if [ "$variant" != 'apache' ]; then
-        sed -ri -e '/a2enmod/d' "$current/$variant/Dockerfile"
-    fi
-
     cp -a docker-entrypoint.sh "$current/$variant/docker-entrypoint.sh"
     cp -a config-docker.php "$current/$variant/config-docker.php"
 

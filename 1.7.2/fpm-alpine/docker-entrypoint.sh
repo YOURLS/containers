@@ -6,29 +6,31 @@ if [ ! -e /var/www/html/yourls-loader.php ]; then
 	chown -R www-data:www-data /var/www/html
 fi
 
-# if not specified, let's use the default
-: "${YOURLS_DB_USER:=mysql}"
-if [ "$YOURLS_DB_USER" = 'root' ]; then
-    : "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD:-}}"
-else
-    : "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_PASSWORD:-}}"
-fi
-: "${YOURLS_DB_NAME:=yourls}"
-# if not specified, let's generate a random value
-: "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"
+if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
+	if [ "$(id -u)" = '0' ]; then
+		# if not specified, let's use the default
+		: "${YOURLS_DB_USER:=mysql}"
+		if [ "$YOURLS_DB_USER" = 'root' ]; then
+			: "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD:-}}"
+		else
+			: "${YOURLS_DB_PASS:=${MYSQL_ENV_MYSQL_PASSWORD:-}}"
+		fi
+		: "${YOURLS_DB_NAME:=yourls}"
+		# if not specified, let's generate a random value
+		: "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"
 
-if [ ! -e /var/www/html/user/config.php ]; then
-    cp /var/www/html/config-docker.php /var/www/html/user/config.php
-    chown www-data:www-data /var/www/html/user/config.php
-fi
+		if [ ! -e /var/www/html/user/config.php ]; then
+			cp /var/www/html/config-docker.php /var/www/html/user/config.php
+			chown www-data:www-data /var/www/html/user/config.php
+		fi
 
-: "${YOURLS_USER:=}"
-: "${YOURLS_PASS:=}"
-if [ "${YOURLS_USER}" -a "${YOURLS_PASS}" ]; then
-    sed -i "s/  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),/  '${YOURLS_USER}' => '${YOURLS_PASS}',/g" /var/www/html/user/config.php
-fi
+		: "${YOURLS_USER:=}"
+		: "${YOURLS_PASS:=}"
+		if [ "${YOURLS_USER}" -a "${YOURLS_PASS}" ]; then
+			sed -i "s/  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),/  '${YOURLS_USER}' => '${YOURLS_PASS}',/g" /var/www/html/user/config.php
+		fi
 
-TERM=dumb php -- <<'EOPHP'
+		TERM=dumb php -- <<'EOPHP'
 <?php
 // database might not exist, so let's try creating it (just to be safe)
 
@@ -64,5 +66,7 @@ if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `'.$mysql->real_escape_string(
 
 $mysql->close();
 EOPHP
+	fi
+fi
 
 exec "$@"

@@ -69,7 +69,7 @@ join() {
 }
 
 for version in "${versions[@]}"; do
-	for variant in apache fpm; do
+	for variant in apache fpm fpm-alpine; do
 		commit="$(dirCommit "$version/$variant")"
 
 		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"

@@ -2,17 +2,7 @@ FROM php:5.6-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
-    \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-		bzip2 \
-		libcurl4-openssl-dev \
-		libmemcached-dev \
-		libxml2-dev \
-    ; \
-    rm -rf /var/lib/apt/lists/*; \
-    \
-    docker-php-ext-install mbstring opcache pdo pdo_mysql mysqli
+    docker-php-ext-install opcache pdo_mysql mysqli
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php

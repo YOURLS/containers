@@ -34,7 +34,12 @@ for variant in apache fpm fpm-alpine; do
     cp -a docker-entrypoint.sh "$current/$variant/docker-entrypoint.sh"
     cp -a config-docker.php "$current/$variant/config-docker.php"
 
+    if [ $variant == "apache" ]
+        cp -a .htaccess "$current/$variant/.htaccess"
+    fi
+
     travisEnv='\n  - VERSION='"$current"' VARIANT='"$variant$travisEnv"
+    
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"

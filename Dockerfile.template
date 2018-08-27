@@ -33,6 +33,7 @@ RUN set -ex; \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY config-docker.php /var/www/html/
+RUN if [ %%VARIANT%% = "apache" ] ; COPY .htaccess /var/www/html/ ;
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["%%CMD%%"]

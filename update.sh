@@ -13,6 +13,12 @@ declare -A extras=(
 	[fpm-alpine]='\nRUN apk add --no-cache bash'
 )
 
+declare -A files=(
+	[apache]='COPY .htaccess \/var\/www\/html\/'
+	[fpm]=''
+	[fpm-alpine]=''
+)
+
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 #current="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r '?')"
@@ -27,6 +33,7 @@ for variant in apache fpm fpm-alpine; do
     sed -ri \
         -e 's/%%VARIANT%%/'"$variant"'/' \
         -e 's/%%VARIANT_EXTRAS%%/'"${extras[$variant]}"'/' \
+        -e 's/%%VARIANT_FILES%%/'"${files[$variant]}"'/' \
         -e 's/%%VERSION%%/'"$current"'/' \
         -e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
         "$current/$variant/Dockerfile"
@@ -34,8 +41,8 @@ for variant in apache fpm fpm-alpine; do
     cp -a docker-entrypoint.sh "$current/$variant/docker-entrypoint.sh"
     cp -a config-docker.php "$current/$variant/config-docker.php"
 
-    if [ $variant == "apache" ]
-        cp -a .htaccess "$current/$variant/.htaccess"
+    if [ "$variant" = 'apache' ]; then
+        cp -a yourls.vhost "$current/$variant/.htaccess"
     fi
 
     travisEnv='\n  - VERSION='"$current"' VARIANT='"$variant$travisEnv"

@@ -59,6 +59,8 @@ cat <<-EOH
 Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)
 GitRepo: https://github.com/YOURLS/docker-yourls.git
+
+Architectures: amd64, arm64v8
 EOH
 
 # prints "$2$1$3$1...$N"

@@ -11,17 +11,17 @@
  */
 
 /** MySQL database username */
-define( 'YOURLS_DB_USER', getenv('YOURLS_DB_USER') );
+define( 'YOURLS_DB_USER', getenv('YOURLS_DB_USER') ?: 'root' );
 
 /** MySQL database password */
 define( 'YOURLS_DB_PASS', getenv('YOURLS_DB_PASS') );
 
 /** The name of the database for YOURLS */
-define( 'YOURLS_DB_NAME', getenv('YOURLS_DB_NAME') );
+define( 'YOURLS_DB_NAME', getenv('YOURLS_DB_NAME') ?: 'yourls' );
 
 /** MySQL hostname.
  ** If using a non standard port, specify it like 'hostname:port', eg. 'localhost:9999' or '127.0.0.1:666' */
-define( 'YOURLS_DB_HOST', getenv('YOURLS_DB_HOST') ?: '127.0.0.1' );
+define( 'YOURLS_DB_HOST', getenv('YOURLS_DB_HOST') ?: 'mysql' );
 
 /** MySQL tables prefix */
 define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: 'yourls_' );

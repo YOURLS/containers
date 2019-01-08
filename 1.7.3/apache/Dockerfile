@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.2-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -15,11 +15,11 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN apk add --no-cache bash
+RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
-ENV YOURLS_VERSION 1.7.2
+ENV YOURLS_VERSION 1.7.3
 #ENV YOURLS_SHA256 %%SHA256%%
 
 RUN set -ex; \
@@ -34,6 +34,6 @@ RUN set -ex; \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY config-docker.php /var/www/html/
-
+COPY .htaccess /var/www/html/
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]
+CMD ["apache2-foreground"]

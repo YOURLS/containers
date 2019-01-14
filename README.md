@@ -11,3 +11,6 @@ The [full description from Docker Hub](https://hub.docker.com/_/yourls/) is gene
 
 -	[Travis CI:  
 	![build status badge](https://img.shields.io/travis/YOURLS/docker-yourls/master.svg)](https://travis-ci.org/YOURLS/docker-yourls/branches)
+
+- 	[Docker Hub:  
+	![docker hub pulls](https://img.shields.io/docker/pulls/_/yourls.svg) ![docker hub stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)

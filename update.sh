@@ -26,27 +26,26 @@ current="$(curl -fsSL 'https://api.github.com/repos/YOURLS/YOURLS/releases' | jq
 
 travisEnv=
 for variant in apache fpm fpm-alpine; do
-    mkdir -p "$variant"
+	mkdir -p "$variant"
 
-    cp Dockerfile.template "$variant/Dockerfile"
+	cp Dockerfile.template "$variant/Dockerfile"
 
-    sed -ri \
-        -e 's/%%VARIANT%%/'"$variant"'/' \
-        -e 's/%%VARIANT_EXTRAS%%/'"${extras[$variant]}"'/' \
-        -e 's/%%VARIANT_FILES%%/'"${files[$variant]}"'/' \
-        -e 's/%%VERSION%%/'"$current"'/' \
-        -e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
-        "$variant/Dockerfile"
+	sed -ri \
+		-e 's/%%VARIANT%%/'"$variant"'/' \
+		-e 's/%%VARIANT_EXTRAS%%/'"${extras[$variant]}"'/' \
+		-e 's/%%VARIANT_FILES%%/'"${files[$variant]}"'/' \
+		-e 's/%%VERSION%%/'"$current"'/' \
+		-e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
+		"$variant/Dockerfile"
 
-    cp -a docker-entrypoint.sh "$variant/docker-entrypoint.sh"
-    cp -a config-docker.php "$variant/config-docker.php"
+	cp -a docker-entrypoint.sh "$variant/docker-entrypoint.sh"
+	cp -a config-docker.php "$variant/config-docker.php"
 
-    if [ "$variant" = 'apache' ]; then
-        cp -a yourls.vhost "$variant/.htaccess"
-    fi
+	if [ "$variant" = 'apache' ]; then
+		cp -a yourls.vhost "$variant/.htaccess"
+	fi
 
-    travisEnv='\n  - VERSION='"$current"' VARIANT='"$variant$travisEnv"
-
+	travisEnv='\n  - VERSION='"$current"' VARIANT='"$variant$travisEnv"
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"

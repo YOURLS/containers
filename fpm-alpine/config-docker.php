@@ -1,9 +1,6 @@
 <?php
 /* This is a sample config file.
  * Edit this file with your own settings and save it as "config.php"
- *
- * IMPORTANT: edit and save this file as plain ASCII text, using a text editor, for instance TextEdit on Mac OS or
- * Notepad on Windows. Make sure there is no character before the opening <?php at the beginning of this file.
  */
 
 /*
@@ -59,17 +56,17 @@ define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'modify this text with
 /** Username(s) and password(s) allowed to access the site. Passwords either in plain text or as encrypted hashes
  ** YOURLS will auto encrypt plain text passwords in this file
  ** Read http://yourls.org/userpassword for more information */
-$yourls_user_passwords = array(
-  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),
-);
+$yourls_user_passwords = [
+    getenv('YOURLS_USER') => getenv('YOURLS_PASS'),
+];
 
 /** Debug mode to output some internal information
  ** Default is false for live site. Enable when coding or before submitting a new issue */
 define( 'YOURLS_DEBUG', getenv('YOURLS_DEBUG') ?: false );
 
 /*
- ** URL Shortening settings
- */
+** URL Shortening settings
+*/
 
 /** URL shortening method: 36 or 62 */
 define( 'YOURLS_URL_CONVERT', getenv('YOURLS_URL_CONVERT') ?: 36 );
@@ -80,14 +77,13 @@ define( 'YOURLS_URL_CONVERT', getenv('YOURLS_URL_CONVERT') ?: 36 );
  */
 
 /**
-* Reserved keywords (so that generated URLs won't match them)
-* Define here negative, unwanted or potentially misleading keywords.
-*/
-$yourls_reserved_URL = array(
-	'porn', 'faggot', 'sex', 'nigger', 'fuck', 'cunt', 'dick',
-);
+ * Reserved keywords (so that generated URLs won't match them)
+ * Define here negative, unwanted or potentially misleading keywords.
+ */
+$yourls_reserved_URL = [
+    'porn', 'faggot', 'sex', 'nigger', 'fuck', 'cunt', 'dick',
+];
 
 /*
  ** Personal settings would go after here.
  */
-

@@ -11,7 +11,6 @@ install:
 
 before_script:
   - env | sort
-  - cd "$VERSION"
   - image="yourls:${VERSION}${VARIANT:+-$VARIANT}"
 
 script:
@@ -20,5 +19,3 @@ script:
 
 after_script:
   - docker images
-
-# vim:set et ts=2 sw=2:

@@ -1,18 +1,8 @@
 #!/bin/bash
 set -eu
 
-declare -A aliases=(
-	[1.7.3]='1.7 1 latest'
-)
-
 self="$(basename "$BASH_SOURCE")"
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
-
-versions=( */ )
-versions=( "${versions[@]%/}" )
-
-# sort version numbers with highest first
-IFS=$'\n'; versions=( $(echo "${versions[*]}" | sort -rV) ); unset IFS
 
 # get the most recent commit which modified any of "$@"
 fileCommit() {
@@ -67,38 +57,36 @@ join() {
 	echo "${out#$sep}"
 }
 
-for version in "${versions[@]}"; do
-	for variant in apache fpm fpm-alpine; do
-		commit="$(dirCommit "$version/$variant")"
+for variant in apache fpm fpm-alpine; do
+	commit="$(dirCommit "$variant")"
 
-		fullVersion="$(git show "$commit":"$version/$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
+	fullVersion="$(git show "$commit":"$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
 
-		versionAliases=()
-		while [ "$fullVersion" != "$version" -a "${fullVersion%[.-]*}" != "$fullVersion" ]; do
-			versionAliases+=( $fullVersion )
-			fullVersion="${fullVersion%[.-]*}"
-		done
-		versionAliases+=(
-			$version
-			${aliases[$version]:-}
-		)
-
-		variantAliases=( "${versionAliases[@]/%/-$variant}" )
-		variantAliases=( "${variantAliases[@]//latest-/}" )
-
-		if [ "$variant" = 'apache' ]; then
-			variantAliases+=( "${versionAliases[@]}" )
-		fi
-
-		variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$version/$variant/Dockerfile")"
-		variantArches="${parentRepoToArches[$variantParent]}"
-
-		echo
-		cat <<-EOE
-			Tags: $(join ', ' "${variantAliases[@]}")
-			Architectures: $(join ', ' $variantArches)
-			GitCommit: $commit
-			Directory: $version/$variant
-		EOE
+	versionAliases=()
+	while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+		versionAliases+=( $fullVersion )
+		fullVersion="${fullVersion%[.-]*}"
 	done
+	versionAliases+=(
+		$fullVersion
+		latest
+	)
+
+	variantAliases=( "${versionAliases[@]/%/-$variant}" )
+	variantAliases=( "${variantAliases[@]//latest-/}" )
+
+	if [ "$variant" = 'apache' ]; then
+		variantAliases+=( "${versionAliases[@]}" )
+	fi
+
+	variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$variant/Dockerfile")"
+	variantArches="${parentRepoToArches[$variantParent]}"
+
+	echo
+	cat <<-EOE
+		Tags: $(join ', ' "${variantAliases[@]}")
+		Architectures: $(join ', ' $variantArches)
+		GitCommit: $commit
+		Directory: $variant
+	EOE
 done

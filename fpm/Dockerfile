@@ -19,11 +19,11 @@ RUN { \
 VOLUME /var/www/html
 
 ENV YOURLS_VERSION 1.7.3
-#ENV YOURLS_SHA256 %%SHA256%%
+ENV YOURLS_SHA256 301ed5b0bfd63cfaeeafe40de056661302e786542002f479886fcf601bfb9dc4
 
 RUN set -ex; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \
-    #echo "YOURLS_SHA256 *yourls.tar.gz" | sha256sum -c -; \
+    echo "$YOURLS_SHA256 *yourls.tar.gz" | sha256sum -c -; \
 # upstream tarballs include ./YOURLS-${YOURLS_VERSION}/ so this gives us /usr/src/YOURLS-${YOURLS_VERSION}
     tar -xzf yourls.tar.gz -C /usr/src/; \
 # move back to a common /usr/src/yourls

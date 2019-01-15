@@ -21,8 +21,13 @@ declare -A files=(
 
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-#current="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r '?')"
-current="$(curl -fsSL 'https://api.github.com/repos/YOURLS/YOURLS/releases' | jq -r '.[0].tag_name')"
+# Using Packagist API
+#current="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r '.packages["yourls/yourls"]')"
+#sha256="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r ".packages['yourls/yourls']['${current}'].dist.shasum")"
+
+# Using GitHub API
+current="$(curl -fsSL 'https://api.github.com/repos/YOURLS/YOURLS/releases/latest' | jq -r '.tag_name')"
+sha256="$(curl -fsSL "https://github.com/YOURLS/YOURLS/archive/${current}.tar.gz" | sha256sum | awk '{ print $1 }')"
 
 travisEnv=
 for variant in apache fpm fpm-alpine; do
@@ -35,6 +40,7 @@ for variant in apache fpm fpm-alpine; do
 		-e 's/%%VARIANT_EXTRAS%%/'"${extras[$variant]}"'/' \
 		-e 's/%%VARIANT_FILES%%/'"${files[$variant]}"'/' \
 		-e 's/%%VERSION%%/'"$current"'/' \
+		-e 's/%%SHA256%%/'"$sha256"'/' \
 		-e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
 		"$variant/Dockerfile"
 

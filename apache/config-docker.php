@@ -32,7 +32,7 @@ define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: 'yourls_' );
 define( 'YOURLS_SITE', getenv('YOURLS_SITE') ?: 'http://your-own-domain-here.com' );
 
 /** Server timezone GMT offset */
-define( 'YOURLS_HOURS_OFFSET', getenv('YOURLS_HOURS_OFFSET') ?: 0 );
+define( 'YOURLS_HOURS_OFFSET', filter_var(getenv('YOURLS_HOURS_OFFSET'), FILTER_VALIDATE_INT) ?: 0 );
 
 /** YOURLS language
  ** Change this setting to use a translation file for your language, instead of the default English.
@@ -43,12 +43,12 @@ define( 'YOURLS_LANG', getenv('YOURLS_LANG') ?: '' );
 /** Allow multiple short URLs for a same long URL
  ** Set to true to have only one pair of shortURL/longURL (default YOURLS behavior)
  ** Set to false to allow multiple short URLs pointing to the same long URL (bit.ly behavior) */
-define( 'YOURLS_UNIQUE_URLS', getenv('YOURLS_UNIQUE_URLS') ?: true );
+define( 'YOURLS_UNIQUE_URLS', filter_var(getenv('YOURLS_UNIQUE_URLS'), FILTER_VALIDATE_BOOLEAN) ?: true );
 
 /** Private means the Admin area will be protected with login/pass as defined below.
  ** Set to false for public usage (eg on a restricted intranet or for test setups)
  ** Read http://yourls.org/privatepublic for more details if you're unsure */
-define( 'YOURLS_PRIVATE', getenv('YOURLS_PRIVATE') ?: true );
+define( 'YOURLS_PRIVATE', filter_var(getenv('YOURLS_PRIVATE'), FILTER_VALIDATE_BOOLEAN) ?: true );
 
 /** A random secret hash used to encrypt cookies. You don't have to remember it, make it long and complicated. Hint: copy from http://yourls.org/cookie **/
 define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'modify this text with something random' );
@@ -62,14 +62,14 @@ $yourls_user_passwords = [
 
 /** Debug mode to output some internal information
  ** Default is false for live site. Enable when coding or before submitting a new issue */
-define( 'YOURLS_DEBUG', getenv('YOURLS_DEBUG') ?: false );
+define( 'YOURLS_DEBUG', filter_var(getenv('YOURLS_DEBUG'), FILTER_VALIDATE_BOOLEAN) ?: false );
 
 /*
 ** URL Shortening settings
 */
 
 /** URL shortening method: 36 or 62 */
-define( 'YOURLS_URL_CONVERT', getenv('YOURLS_URL_CONVERT') ?: 36 );
+define( 'YOURLS_URL_CONVERT', filter_var(getenv('YOURLS_URL_CONVERT'), FILTER_VALIDATE_INT) ?: 36 );
 /*
  * 36: generates all lowercase keywords (ie: 13jkm)
  * 62: generates mixed case keywords (ie: 13jKm or 13JKm)

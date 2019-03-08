@@ -33,7 +33,7 @@ RUN set -ex; \
     chown -R www-data:www-data /usr/src/yourls
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY config-docker.php /var/www/html/
+COPY config-docker.php /usr/src/yourls/user/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]

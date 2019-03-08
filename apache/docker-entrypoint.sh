@@ -12,13 +12,13 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		: "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"
 
 		if [ ! -e /var/www/html/user/config.php ]; then
-			cp /var/www/html/config-docker.php /var/www/html/user/config.php
+			cp /var/www/html/user/config-docker.php /var/www/html/user/config.php
 			chown www-data:www-data /var/www/html/user/config.php
 		fi
 
 		: "${YOURLS_USER:=}"
 		: "${YOURLS_PASS:=}"
-		if [ "${YOURLS_USER}" -a "${YOURLS_PASS}" ]; then
+		if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}" ]; then
 			sed -i "s/  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),/  '${YOURLS_USER}' => '${YOURLS_PASS}',/g" /var/www/html/user/config.php
 		fi
 

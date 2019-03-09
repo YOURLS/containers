@@ -43,12 +43,12 @@ define( 'YOURLS_LANG', getenv('YOURLS_LANG') ?: '' );
 /** Allow multiple short URLs for a same long URL
  ** Set to true to have only one pair of shortURL/longURL (default YOURLS behavior)
  ** Set to false to allow multiple short URLs pointing to the same long URL (bit.ly behavior) */
-define( 'YOURLS_UNIQUE_URLS', getenv('YOURLS_UNIQUE_URLS') == 'false' ? false : true );
+define( 'YOURLS_UNIQUE_URLS', getenv('YOURLS_UNIQUE_URLS') !== 'false' );
 
 /** Private means the Admin area will be protected with login/pass as defined below.
  ** Set to false for public usage (eg on a restricted intranet or for test setups)
  ** Read http://yourls.org/privatepublic for more details if you're unsure */
-define( 'YOURLS_PRIVATE', getenv('YOURLS_PRIVATE') == 'false' ? false : true );
+define( 'YOURLS_PRIVATE', getenv('YOURLS_PRIVATE') !== 'false' );
 
 /** A random secret hash used to encrypt cookies. You don't have to remember it, make it long and complicated. Hint: copy from http://yourls.org/cookie **/
 define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'modify this text with something random' );

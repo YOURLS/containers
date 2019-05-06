@@ -14,7 +14,7 @@ declare -A extras=(
 )
 
 declare -A files=(
-	[apache]='COPY .htaccess \/var\/www\/html\/'
+	[apache]='COPY .htaccess \/usr\/src\/yourls\/'
 	[fpm]=''
 	[fpm-alpine]=''
 )

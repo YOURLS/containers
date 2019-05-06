@@ -34,6 +34,6 @@ RUN set -ex; \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY config-docker.php /usr/src/yourls/user/
-COPY .htaccess /var/www/html/
+COPY .htaccess /usr/src/yourls/
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]

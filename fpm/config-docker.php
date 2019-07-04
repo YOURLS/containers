@@ -76,6 +76,13 @@ define( 'YOURLS_URL_CONVERT', filter_var(getenv('YOURLS_URL_CONVERT'), FILTER_VA
  * Stick to one setting. It's best not to change after you've started creating links.
  */
 
+// if set to true, disable stat logging (no use for it, too busy servers, ...)
+if (filter_var(getenv('YOURLS_NOSTATS')) == 'true') {
+    define( 'YOURLS_NOSTATS', true );
+} else {
+    define( 'YOURLS_NOSTATS', false );
+}
+
 /**
  * Reserved keywords (so that generated URLs won't match them)
  * Define here negative, unwanted or potentially misleading keywords.

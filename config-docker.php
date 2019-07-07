@@ -77,7 +77,7 @@ define( 'YOURLS_URL_CONVERT', filter_var(getenv('YOURLS_URL_CONVERT'), FILTER_VA
  */
 
 /** if set to true, disable stat logging (no use for it, too busy servers, ...) */
-if (filter_var(getenv('YOURLS_NOSTATS')) == 'true') {
+define( 'YOURLS_NOSTATS', filter_var(getenv('YOURLS_NOSTATS'), FILTER_VALIDATE_BOOLEAN) );
     define( 'YOURLS_NOSTATS', true );
 } else {
     define( 'YOURLS_NOSTATS', false );

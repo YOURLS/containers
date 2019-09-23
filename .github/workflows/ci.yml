@@ -1,0 +1,24 @@
+name: Docker CI
+
+on: [push, pull_request]
+
+jobs:
+  testing:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [1.7.3]
+        variant: [fpm-alpine, fpm, apache]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Prepare Tools
+        run: git clone https://github.com/docker-library/official-images.git ~/official-images
+      - name: Build and Test
+        run: |
+          docker build -t "${IMAGE}" "${VARIANT}"
+          ~/official-images/test/run.sh "${IMAGE}"
+        env:
+          IMAGE: yourls:${{ matrix.version }}-${{ matrix.variant }}
+          VARIANT: ${{ matrix.variant }}
+      - run: docker images

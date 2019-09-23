@@ -14,8 +14,8 @@ For more information about the official images process, see the [docker-library/
 
 ---
 
--	[Travis CI:  
-	![build status badge](https://img.shields.io/travis/YOURLS/docker-yourls/master.svg)](https://travis-ci.org/YOURLS/docker-yourls/branches)
+-	[GitHub Actions:  
+	![build status badge](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
 
 -	[Automated `update.sh`:  
 	![build status badge](https://doi-janky.infosiftr.net/job/update.sh/job/yourls/badge/icon)](https://doi-janky.infosiftr.net/job/update.sh/job/yourls)

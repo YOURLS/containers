@@ -29,7 +29,6 @@ cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 current="$(curl -fsSL 'https://api.github.com/repos/YOURLS/YOURLS/releases/latest' | jq -r '.tag_name')"
 sha256="$(curl -fsSL "https://github.com/YOURLS/YOURLS/archive/${current}.tar.gz" | sha256sum | awk '{ print $1 }')"
 
-travisEnv=
 for variant in apache fpm fpm-alpine; do
 	mkdir -p "$variant"
 
@@ -51,8 +50,8 @@ for variant in apache fpm fpm-alpine; do
 		cp -a yourls.vhost "$variant/.htaccess"
 	fi
 
-	travisEnv='\n  - VERSION='"$current"' VARIANT='"$variant$travisEnv"
+	ciVariants="$variant${ciVariants:+, $ciVariants}"
 done
 
-travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
-echo "$travis" > .travis.yml
+sed -i "s/version:.*/version: [$current]/g" .github/workflows/ci.yml
+sed -i "s/variant:.*/variant: [$ciVariants]/g" .github/workflows/ci.yml

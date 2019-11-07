@@ -15,8 +15,6 @@ RUN { \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 %%VARIANT_EXTRAS%%
 
-VOLUME /var/www/html
-
 ENV YOURLS_VERSION %%VERSION%%
 ENV YOURLS_SHA256 %%SHA256%%
 

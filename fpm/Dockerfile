@@ -14,9 +14,6 @@ RUN { \
         echo 'opcache.fast_shutdown=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-
-VOLUME /var/www/html
-
 ENV YOURLS_VERSION 1.7.4
 ENV YOURLS_SHA256 ffdf0f94b66cdbeaaa62bed3fde14d4eeb2bb1669c3c342eef369ce6165a0276
 

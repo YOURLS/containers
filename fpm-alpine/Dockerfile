@@ -18,8 +18,8 @@ RUN apk add --no-cache bash
 
 VOLUME /var/www/html
 
-ENV YOURLS_VERSION 1.7.5
-ENV YOURLS_SHA256 e8251bc99def425f647577b066d3489725a3cefde7a72f83ceab0b68e9910e9c
+ENV YOURLS_VERSION 1.7.6
+ENV YOURLS_SHA256 f3623af6e4cabee61a39d3deca3c941717c5e0a60bc288b6f3a668f87a20ae2e
 
 RUN set -eux; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \

@@ -17,8 +17,8 @@ RUN { \
 
 VOLUME /var/www/html
 
-ENV YOURLS_VERSION 1.7.4
-ENV YOURLS_SHA256 ffdf0f94b66cdbeaaa62bed3fde14d4eeb2bb1669c3c342eef369ce6165a0276
+ENV YOURLS_VERSION 1.7.5
+ENV YOURLS_SHA256 e8251bc99def425f647577b066d3489725a3cefde7a72f83ceab0b68e9910e9c
 
 RUN set -eux; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \

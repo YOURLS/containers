@@ -16,8 +16,6 @@ RUN { \
 
 RUN apk add --no-cache bash
 
-VOLUME /var/www/html
-
 ENV YOURLS_VERSION 1.7.6
 ENV YOURLS_SHA256 f3623af6e4cabee61a39d3deca3c941717c5e0a60bc288b6f3a668f87a20ae2e
 

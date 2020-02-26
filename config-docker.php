@@ -21,7 +21,7 @@ define( 'YOURLS_DB_NAME', getenv('YOURLS_DB_NAME') ?: 'yourls' );
 define( 'YOURLS_DB_HOST', getenv('YOURLS_DB_HOST') ?: 'mysql' );
 
 /** MySQL tables prefix */
-define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: 'yourls_' );
+define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: '' );
 
 /*
  ** Site options

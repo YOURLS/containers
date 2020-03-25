@@ -50,6 +50,9 @@ define( 'YOURLS_UNIQUE_URLS', getenv('YOURLS_UNIQUE_URLS') === false ?: filter_v
  ** Read http://yourls.org/privatepublic for more details if you're unsure */
 define( 'YOURLS_PRIVATE', getenv('YOURLS_PRIVATE') === false ?: filter_var(getenv('YOURLS_PRIVATE'), FILTER_VALIDATE_BOOLEAN) );
 
+/** Force HTTPS in the Admin area */
+define( 'YOURLS_ADMIN_SSL', getenv('YOURLS_ADMIN_SSL') === false ?: filter_var(getenv('YOURLS_ADMIN_SSL'), FILTER_VALIDATE_BOOLEAN) );
+
 /** A random secret hash used to encrypt cookies. You don't have to remember it, make it long and complicated. Hint: copy from http://yourls.org/cookie **/
 define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'modify this text with something random' );
 

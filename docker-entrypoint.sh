@@ -1,6 +1,37 @@
 #!/bin/bash
 set -euo pipefail
 
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+	local var="$1"
+	local fileVar="${var}_FILE"
+	local def="${2:-}"
+	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+		mysql_error "Both $var and $fileVar are set (but are exclusive)"
+	fi
+	local val="$def"
+	if [ "${!var:-}" ]; then
+		val="${!var}"
+	elif [ "${!fileVar:-}" ]; then
+		val="$(< "${!fileVar}")"
+	fi
+	export "$var"="$val"
+	unset "$fileVar"
+}
+
+file_env 'YOURLS_DB_HOST'
+file_env 'YOURLS_DB_USER'
+file_env 'YOURLS_DB_PASS'
+file_env 'YOURLS_DB_NAME'
+file_env 'YOURLS_DB_PREFIX'
+file_env 'YOURLS_COOKIEKEY'
+file_env 'YOURLS_SITE'
+file_env 'YOURLS_USER'
+file_env 'YOURLS_PASS'
+
 if [ ! -e /var/www/html/yourls-loader.php ]; then
 	tar cf - --one-file-system -C /usr/src/yourls . | tar xf -
 	chown -R www-data:www-data /var/www/html

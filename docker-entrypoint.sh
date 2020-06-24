@@ -10,7 +10,7 @@ file_env() {
 	local fileVar="${var}_FILE"
 	local def="${2:-}"
 	if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
-		mysql_error "Both $var and $fileVar are set (but are exclusive)"
+		printf 'Both %s and %s are set (but are exclusive)' "$var" "$fileVar"
 	fi
 	local val="$def"
 	if [ "${!var:-}" ]; then
@@ -27,7 +27,6 @@ file_env 'YOURLS_DB_USER'
 file_env 'YOURLS_DB_PASS'
 file_env 'YOURLS_DB_NAME'
 file_env 'YOURLS_DB_PREFIX'
-file_env 'YOURLS_COOKIEKEY'
 file_env 'YOURLS_SITE'
 file_env 'YOURLS_USER'
 file_env 'YOURLS_PASS'

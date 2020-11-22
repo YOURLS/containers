@@ -9,6 +9,9 @@ jobs:
   docker:
     name: Docker image
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant: [fpm-alpine, fpm, apache]
     steps:
       - uses: actions/checkout@v2.3.4
 
@@ -25,13 +28,13 @@ jobs:
       - name: Docker build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./${{ matrix.variant }}/
+          file: ./${{ matrix.variant }}/Dockerfile
           labels: |
             org.opencontainers.image.authors=${{ github.repository_owner }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
           tags: |
-            ghcr.io/${{ secrets.REGISTRY_IMAGE }}:latest
+            ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ matrix.variant }}
 #            ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ github.ref }}
           push: true

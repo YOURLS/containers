@@ -33,7 +33,7 @@ jobs:
           labels: |
             org.opencontainers.image.authors=${{ github.repository_owner }}
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/${{ secrets.REGISTRY_IMAGE }}
           tags: |
             ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ matrix.variant }}
 #            ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ github.ref }}

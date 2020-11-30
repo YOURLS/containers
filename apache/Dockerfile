@@ -2,7 +2,7 @@ FROM php:7.4-apache
 
 # install the PHP extensions we need
 RUN set -eux; \
-    docker-php-ext-install -j "$(nproc)" gmp opcache pdo_mysql mysqli
+    docker-php-ext-install -j "$(nproc)" bcmath opcache pdo_mysql mysqli
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php

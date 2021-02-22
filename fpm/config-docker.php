@@ -3,25 +3,36 @@
  * Edit this file with your own settings and save it as "config.php"
  */
 
+// a helper function to lookup "env_FILE", "env", then fallback
+function getenv_docker(string $name, ?string $default = null): ?string {
+    if ($fileEnv = getenv($name . '_FILE')) {
+        return trim(file_get_contents($fileEnv));
+    }
+    if ($value = getenv($name)) {
+        return $value;
+    }
+    return $default;
+}
+
 /*
  ** MySQL settings - You can get this info from your web host
  */
 
 /** MySQL database username */
-define( 'YOURLS_DB_USER', getenv('YOURLS_DB_USER') ?: 'root' );
+define( 'YOURLS_DB_USER', getenv_docker('YOURLS_DB_USER', 'root') );
 
 /** MySQL database password */
-define( 'YOURLS_DB_PASS', getenv('YOURLS_DB_PASS') );
+define( 'YOURLS_DB_PASS', getenv_docker('YOURLS_DB_PASS') );
 
 /** The name of the database for YOURLS */
-define( 'YOURLS_DB_NAME', getenv('YOURLS_DB_NAME') ?: 'yourls' );
+define( 'YOURLS_DB_NAME', getenv_docker('YOURLS_DB_NAME', 'yourls') );
 
 /** MySQL hostname.
  ** If using a non standard port, specify it like 'hostname:port', eg. 'localhost:9999' or '127.0.0.1:666' */
-define( 'YOURLS_DB_HOST', getenv('YOURLS_DB_HOST') ?: 'mysql' );
+define( 'YOURLS_DB_HOST', getenv_docker('YOURLS_DB_HOST', 'mysql') );
 
 /** MySQL tables prefix */
-define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: 'yourls_' );
+define( 'YOURLS_DB_PREFIX', getenv_docker('YOURLS_DB_PREFIX', 'yourls_') );
 
 /*
  ** Site options
@@ -29,7 +40,7 @@ define( 'YOURLS_DB_PREFIX', getenv('YOURLS_DB_PREFIX') ?: 'yourls_' );
 
 /** YOURLS installation URL -- all lowercase, no trailing slash at the end.
  ** If you define it to "http://sho.rt", don't use "http://www.sho.rt" in your browser (and vice-versa) */
-define( 'YOURLS_SITE', getenv('YOURLS_SITE') ?: 'http://your-own-domain-here.com' );
+define( 'YOURLS_SITE', getenv_docker('YOURLS_SITE', 'http://your-own-domain-here.com') );
 
 /** Server timezone GMT offset */
 define( 'YOURLS_HOURS_OFFSET', filter_var(getenv('YOURLS_HOURS_OFFSET'), FILTER_VALIDATE_INT) ?: 0 );
@@ -57,7 +68,7 @@ define( 'YOURLS_COOKIEKEY', getenv('YOURLS_COOKIEKEY') ?: 'modify this text with
  ** YOURLS will auto encrypt plain text passwords in this file
  ** Read http://yourls.org/userpassword for more information */
 $yourls_user_passwords = [
-    getenv('YOURLS_USER') => getenv('YOURLS_PASS'),
+    getenv_docker('YOURLS_USER') => getenv_docker('YOURLS_PASS'),
 ];
 
 /** Debug mode to output some internal information

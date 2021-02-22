@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [1.7.9]
+        version: [1.8]
         variant: [fpm-alpine, fpm, apache]
     steps:
       - uses: actions/checkout@v2.3.4

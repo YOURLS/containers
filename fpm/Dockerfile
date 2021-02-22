@@ -15,8 +15,8 @@ RUN { \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 
-ENV YOURLS_VERSION 1.7.9
-ENV YOURLS_SHA256 0d9106b2936289d2fe5d4d6c017a77f96c79f4b2cacf1b59a0837d0032ca96d7
+ENV YOURLS_VERSION 1.8
+ENV YOURLS_SHA256 76c6db3b37a9c9f2570d280dce03b0fc34cd690767af77a2aed2cb2fbbaf546f
 
 RUN set -eux; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \

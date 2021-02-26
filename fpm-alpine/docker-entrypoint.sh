@@ -21,7 +21,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		: "${YOURLS_USER:=}"
 		: "${YOURLS_PASS:=}"
 		if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}" ]; then
-			result=$(sed "s/  getenv('YOURLS_USER') => getenv('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS}\',/g" /var/www/html/user/config.php)
+			result=$(sed "s/  getenv_docker('YOURLS_USER') => getenv_docker('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS}\',/g" /var/www/html/user/config.php)
 			echo "$result" > /var/www/html/user/config.php
 		fi
 

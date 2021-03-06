@@ -1,5 +1,7 @@
 FROM php:8.0-%%VARIANT%%
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # install the PHP extensions we need
 RUN set -eux; \
     docker-php-ext-install -j "$(nproc)" bcmath opcache pdo_mysql mysqli

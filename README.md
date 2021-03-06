@@ -14,14 +14,14 @@ For more information about the official images process, see the [docker-library/
 
 ---
 
--	[GitHub Actions:  
-	![build status badge](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
+- [GitHub Actions:  
+  ![build status badge](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
 
--	[Automated `update.sh`:  
-	![build status badge](https://doi-janky.infosiftr.net/job/update.sh/job/yourls/badge/icon)](https://doi-janky.infosiftr.net/job/update.sh/job/yourls)
+- [Automated `update.sh`:  
+  ![build status badge](https://doi-janky.infosiftr.net/job/update.sh/job/yourls/badge/icon)](https://doi-janky.infosiftr.net/job/update.sh/job/yourls)
 
--	[Docker Hub:  
-	![docker hub pulls](https://img.shields.io/docker/pulls/_/yourls.svg) ![docker hub stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
+- [Docker Hub:  
+  ![docker hub pulls](https://img.shields.io/docker/pulls/_/yourls.svg) ![docker hub stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
 
 | Build | Status | Badges | (per-arch) |
 |:-:|:-:|:-:|:-:|

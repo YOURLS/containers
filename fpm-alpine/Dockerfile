@@ -1,6 +1,6 @@
 FROM php:8.0-fpm-alpine
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install the PHP extensions we need
 RUN set -eux; \

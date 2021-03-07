@@ -19,7 +19,7 @@ declare -A files=(
 	[fpm-alpine]=''
 )
 
-cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 # Using Packagist API
 #current="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r '.packages["yourls/yourls"]')"

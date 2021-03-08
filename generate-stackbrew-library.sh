@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-self="$(basename "$BASH_SOURCE")"
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
+self="$(basename "${BASH_SOURCE}")"
+cd "$(dirname "$(readlink -f "${BASH_SOURCE}")")"
 
 # get the most recent commit which modified any of "$@"
 fileCommit() {
@@ -16,13 +16,13 @@ dirCommit() {
 		cd "$dir"
 		fileCommit \
 			Dockerfile \
-			$(git show HEAD:./Dockerfile | awk '
+			"$(git show HEAD:./Dockerfile | awk '
 				toupper($1) == "COPY" {
 					for (i = 2; i < NF; i++) {
 						print $i
 					}
 				}
-			')
+			')"
 	)
 }
 
@@ -31,7 +31,7 @@ getArches() {
 	local officialImagesUrl='https://github.com/docker-library/official-images/raw/master/library/'
 
 	eval "declare -g -A parentRepoToArches=( $(
-		find -name 'Dockerfile' -exec awk '
+		find . -name 'Dockerfile' -exec awk '
 				toupper($1) == "FROM" && $2 !~ /^('"$repo"'|scratch|microsoft\/[^:]+)(:|$)/ {
 					print "'"$officialImagesUrl"'" $2
 				}
@@ -60,15 +60,15 @@ join() {
 for variant in apache fpm fpm-alpine; do
 	commit="$(dirCommit "$variant")"
 
-	fullVersion="$(git show "$commit":"$variant/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
+	fullVersion="$(git show "${commit}:${variant}/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
 
 	versionAliases=()
 	while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do
-		versionAliases+=( $fullVersion )
+		versionAliases+=( "$fullVersion" )
 		fullVersion="${fullVersion%[.-]*}"
 	done
 	versionAliases+=(
-		$fullVersion
+		"$fullVersion"
 		latest
 	)
 
@@ -86,7 +86,7 @@ for variant in apache fpm fpm-alpine; do
 	echo
 	cat <<-EOE
 		Tags: $(join ', ' "${variantAliases[@]}")
-		Architectures: $(join ', ' $variantArches)
+		Architectures: $(join ', ' "$variantArches")
 		GitCommit: $commit
 		Directory: $variant
 	EOE

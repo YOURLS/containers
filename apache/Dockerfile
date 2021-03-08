@@ -18,8 +18,8 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-ENV YOURLS_VERSION 1.8
-ENV YOURLS_SHA256 76c6db3b37a9c9f2570d280dce03b0fc34cd690767af77a2aed2cb2fbbaf546f
+ENV YOURLS_VERSION 1.8.1
+ENV YOURLS_SHA256 92b0666af3e3ad4a783e78cba93687e9a24acf216606a6d457819c5d36d2cfe4
 
 RUN set -eux; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \

@@ -60,7 +60,7 @@ join() {
 for variant in apache fpm fpm-alpine; do
 	commit="$(dirCommit "$variant")"
 
-	fullVersion="$(git show "${commit}:${variant}/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
+	fullVersion="$(git show "${commit}":"${variant}/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
 
 	versionAliases=()
 	while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do

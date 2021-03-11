@@ -68,7 +68,7 @@ for variant in apache fpm fpm-alpine; do
 		fullVersion="${fullVersion%[.-]*}"
 	done
 	versionAliases+=(
-		$fullVersion
+		"$fullVersion"
 		latest
 	)
 

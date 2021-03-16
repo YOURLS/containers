@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+apt-get update && \
+	apt-get install -y libpq-dev && \
+	docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
+	docker-php-ext-install pdo pdo_pgsql pgsql
+
 if [ ! -e /var/www/html/yourls-loader.php ]; then
 	tar cf - --one-file-system -C /usr/src/yourls . | tar xf -
 	chown -R www-data:www-data /var/www/html
@@ -42,24 +47,51 @@ if (is_numeric($socket)) {
 
 $maxTries = 10;
 do {
-	$mysql = new mysqli($host, YOURLS_DB_USER, YOURLS_DB_PASS, '', $port, $socket);
-	if ($mysql->connect_error) {
-		fwrite($stderr, "\nMySQL Connection Error: ({$mysql->connect_errno}) {$mysql->connect_error}\n");
+	$err = "";
+
+	//FIXME: code smell, use "includes/class-<db-type>.php"; including all the dependencies and avoiding `die` calls are beyond me.  : /
+	if ('mysql' === YOURLS_DB_HOST) {
+		$mysql = new mysqli($host, YOURLS_DB_USER, YOURLS_DB_PASS, '', $port, $socket);
+		if ($mysql->connect_error) {
+			$err = "({$mysql->connect_errno}) {$mysql->connect_error}";
+		}
+
+	} else if ('pgsql' === YOURLS_DB_HOST) {
+		$dbconn = pg_connect("host=" . YOURLS_DB_HOST . " dbname=" . YOURLS_DB_NAME . " user=" . YOURLS_DB_USER . " password=" . YOURLS_DB_PASS) or $err = pg_last_error();
+
+	} else {
+		fwrite($stderr, "\nUnknown database type: " . YOURLS_DB_HOST . "\n");
+		die();
+
+	}
+
+	if ("" !== $err) {
+		fwrite($stderr, "\nMySQL Connection Error: $err\n");
 		--$maxTries;
 		if ($maxTries <= 0) {
 			exit(1);
 		}
 		sleep(3);
 	}
-} while ($mysql->connect_error);
+} while ("" !== $err);
 
-if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `'.$mysql->real_escape_string(YOURLS_DB_NAME).'`')) {
-	fwrite($stderr, "\nMySQL \"CREATE DATABASE\" Error: {$mysql->error}\n");
+
+//FIXME: code smell, use "includes/class-<db-type>.php"; including all the dependencies and avoiding `die` calls are beyond me.  : /
+if ('mysql' === YOURLS_DB_HOST) {
+	if (!$mysql->query('CREATE DATABASE IF NOT EXISTS '.$mysql->real_escape_string(YOURLS_DB_NAME))) {
+		fwrite($stderr, "\nMySQL \"CREATE DATABASE\" Error: {$mysql->error}\n");
+		$mysql->close();
+		exit(1);
+	}
 	$mysql->close();
-	exit(1);
+
+} else if ('pgsql' === YOURLS_DB_HOST) {
+	$result = pg_query('CREATE DATABASE ' . YOURLS_DB_NAME . ' TEMPLATE template0') or die('pgsql query failed: ' . pg_last_error());
+	pg_free_result($result);
+	pg_close($dbconn);
+
 }
 
-$mysql->close();
 EOPHP
 	fi
 fi

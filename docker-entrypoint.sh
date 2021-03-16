@@ -66,7 +66,7 @@ do {
 	}
 
 	if ("" !== $err) {
-		fwrite($stderr, "\nMySQL Connection Error: $err\n");
+		fwrite($stderr, "\nConnection Error: $err\n");
 		--$maxTries;
 		if ($maxTries <= 0) {
 			exit(1);

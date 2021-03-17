@@ -12,8 +12,8 @@ services:
       YOURLS_USER: username
       YOURLS_PASS: 'password'
 #    volumes:
-#      - ~/devl/github/YOURLS:/var/www/html
-#      - ~/devl/github/docker-yourls/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+#      - ~/devl/github/YOURLS-mine:/var/www/html
+#      - ~/devl/github/docker-yourls-mine/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
 
   mysql:
     image: mysql:5.7

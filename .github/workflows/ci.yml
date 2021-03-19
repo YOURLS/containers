@@ -16,16 +16,18 @@ jobs:
         if: github.ref != 'refs/heads/dist'
         run: ./bin/generate-variants.sh
 
+      - name: Extract current version
+        run: echo "version=$(head -n 1 yourls_version)" >> $GITHUB_ENV
+
       - name: Prepare Tools
         run: git clone https://github.com/docker-library/official-images.git ~/official-images
 
       - name: Build and Test
         run: |
-          VERSION="$(head -n 1 yourls_version)"
-          docker build -t "${IMAGE}:${VERSION}-${VARIANT}" "${VARIANT}"
+          docker build -t "${IMAGE}" "${VARIANT}"
           ~/official-images/test/run.sh "${IMAGE}"
         env:
-          IMAGE: yourls
+          IMAGE: yourls:${{ env.version }}-${{ matrix.variant }}
           VARIANT: ${{ matrix.variant }}
 
       - run: docker images

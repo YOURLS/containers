@@ -48,6 +48,7 @@ cat <<-EOH
 Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)
 GitRepo: https://github.com/YOURLS/docker-yourls.git
+GitFetch: refs/heads/dist
 EOH
 
 # prints "$2$1$3$1...$N"

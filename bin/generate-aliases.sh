@@ -27,7 +27,7 @@ if [ "$variant" = 'apache' ]; then
 fi
 
 if [ -n "$2" ]; then
-	variantAliases=( "${versionAliases[@]/#/$2:}" )
+	variantAliases=( "${variantAliases[@]/#/$2:}" )
 fi
 
 echo "$(join ', ' "${variantAliases[@]}")"

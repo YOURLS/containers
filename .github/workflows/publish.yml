@@ -1,12 +1,22 @@
-name: Release
+name: Publish
 
 on:
   push:
-    branches: [master]
-#    tags:
-#      - '*'
+    branches: [dist]
 
 jobs:
+  hub:
+    name: Docker hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Generate stackbrew
+        run: ./bin/generate-stackbrew-library.sh > stackbrew.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: stackbrew.txt
+          path: stackbrew.txt
+
   docker:
     name: Docker image
     runs-on: ubuntu-latest

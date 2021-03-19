@@ -8,14 +8,11 @@ jobs:
   files:
     name: Files
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [1.8.1]
     steps:
       - uses: actions/checkout@v2.3.4
 
       - name: Generate variants
-        run: ./bin/generate-variants.sh ${{ matrix.version }} dist/
+        run: ./bin/generate-variants.sh dist/
 
       - name: Prepare scripts
         run: |

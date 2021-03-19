@@ -27,7 +27,7 @@ for variant in apache fpm fpm-alpine; do
 
 	echo
 	cat <<-EOE
-		Tags: $(join ', ' "${variantAliases[@]}")
+		Tags: $variantAliases
 		Architectures: $(join ', ' $variantArches)
 		GitCommit: $commit
 		Directory: $variant

@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+source ./functions.sh
+
 variant="$1"
 commit="$(dirCommit "$variant")"
 

@@ -12,11 +12,14 @@ jobs:
         variant: [fpm-alpine, fpm, apache]
     steps:
       - uses: actions/checkout@v2.3.4
+
       - name: Generate variants
         if: github.ref != 'refs/heads/dist'
         run: ./bin/generate-variants.sh ${{ matrix.version }}
+
       - name: Prepare Tools
         run: git clone https://github.com/docker-library/official-images.git ~/official-images
+
       - name: Build and Test
         run: |
           docker build -t "${IMAGE}" "${VARIANT}"
@@ -24,4 +27,5 @@ jobs:
         env:
           IMAGE: yourls:${{ matrix.version }}-${{ matrix.variant }}
           VARIANT: ${{ matrix.variant }}
+
       - run: docker images

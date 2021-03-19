@@ -48,7 +48,7 @@ for variant in apache fpm fpm-alpine; do
 		-e 's/%%VERSION%%/'"$version"'/' \
 		-e 's/%%SHA256%%/'"$sha256"'/' \
 		-e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
-		"$base_folder$variant/Dockerfile"
+		"$baseFolder$variant/Dockerfile"
 
 	cp -a docker-entrypoint.sh "$baseFolder$variant/docker-entrypoint.sh"
 	cp -a config-docker.php "$baseFolder$variant/config-docker.php"

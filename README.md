@@ -1,6 +1,6 @@
 # YOURLS using Docker
 
-> Official Docker images for YOURLS
+> Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
 
 [![Build Status](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls/)

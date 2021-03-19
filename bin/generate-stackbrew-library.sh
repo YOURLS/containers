@@ -1,7 +1,8 @@
 #!/bin/bash
 set -eu
 
-source ./functions.sh
+# shellcheck source=functions.sh
+source "${BASH_SOURCE[0]%/*}/functions.sh"
 
 self="bin/$(basename "${BASH_SOURCE[0]}")"
 cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"

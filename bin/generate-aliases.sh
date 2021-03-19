@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-source ./functions.sh
+# shellcheck source=functions.sh
+source "${BASH_SOURCE[0]%/*}/functions.sh"
 
 variant="$1"
 commit="$(dirCommit "$variant")"
@@ -29,4 +30,4 @@ if [ -n "$2" ]; then
 	variantAliases=( "${versionAliases[@]/#/$2:}" )
 fi
 
-echo "$variantAliases"
+echo "${variantAliases[@]}"

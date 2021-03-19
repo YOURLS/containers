@@ -16,11 +16,12 @@ jobs:
 
       - name: Generate variants
         if: github.ref != 'refs/heads/dist'
-        run: ./bin/generate-variants.sh ${{ matrix.version }} dist
+        run: ./bin/generate-variants.sh ${{ matrix.version }} dist/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./dist
           publish_branch: dist
+          enable_jekyll: true
           github_token: ${{ secrets.GITHUB_TOKEN }}

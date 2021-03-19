@@ -34,7 +34,7 @@ if [ -z "$current" ]; then
 fi
 sha256="$(curl -fsSL "https://github.com/YOURLS/YOURLS/archive/${current}.tar.gz" | sha256sum | awk '{ print $1 }')"
 
-base_folder="${2:$2/}"
+base_folder="$2"
 
 for variant in apache fpm fpm-alpine; do
 	mkdir -p "$base_folder$variant"

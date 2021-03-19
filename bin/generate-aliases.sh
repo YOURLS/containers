@@ -30,4 +30,4 @@ if [ -n "$2" ]; then
 	variantAliases=( "${versionAliases[@]/#/$2:}" )
 fi
 
-echo "${variantAliases[@]}"
+echo "$(join ', ' "${variantAliases[@]}")"

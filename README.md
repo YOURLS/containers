@@ -23,7 +23,7 @@ See [the Docker Hub page](https://hub.docker.com/_/yourls/) for the full readme 
 
 The [full description from Docker Hub](https://hub.docker.com/_/yourls/) is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/yourls](https://github.com/docker-library/docs/tree/master/yourls).
 
-## See a change merged here that doesn't show up on Docker Hub yet?
+### See a change merged here that doesn't show up on Docker Hub yet?
 
 Check [the "library/yourls" manifest file in the docker-library/official-images repo](https://github.com/docker-library/official-images/blob/master/library/yourls), especially [PRs with the "library/yourls" label on that repo](https://github.com/docker-library/official-images/labels/library%2Fyourls).
 

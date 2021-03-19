@@ -21,10 +21,11 @@ jobs:
 
       - name: Build and Test
         run: |
-          docker build -t "${IMAGE}" "${VARIANT}"
+          VERSION="$(head -n 1 yourls_version)"
+          docker build -t "${IMAGE}:${VERSION}-${VARIANT}" "${VARIANT}"
           ~/official-images/test/run.sh "${IMAGE}"
         env:
-          IMAGE: yourls:${{ matrix.version }}-${{ matrix.variant }}
+          IMAGE: yourls
           VARIANT: ${{ matrix.variant }}
 
       - run: docker images

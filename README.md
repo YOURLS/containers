@@ -1,8 +1,25 @@
 # YOURLS using Docker
 
-## Maintained by: [YOURLS](https://github.com/YOURLS/docker-yourls)
+> Official Docker images for YOURLS
 
-This is the Git repo of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [YOURLS](https://hub.docker.com/_/yourls/). See [the Docker Hub page](https://hub.docker.com/_/yourls/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
+[![Build Status](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
+[![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls/)
+[![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
+
+
+## About
+
+This is the Git repo of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [YOURLS](https://hub.docker.com/_/yourls/).
+
+
+## Usage
+
+See [the Docker Hub page](https://hub.docker.com/_/yourls/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
+
+
+## FAQ
+
+### How to change README page visible on Docker Hub?
 
 The [full description from Docker Hub](https://hub.docker.com/_/yourls/) is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/yourls](https://github.com/docker-library/docs/tree/master/yourls).
 
@@ -13,12 +30,6 @@ Check [the "library/yourls" manifest file in the docker-library/official-images 
 For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 
 ---
-
-- [GitHub Actions:  
-  ![build status badge](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
-
-- [Docker Hub:  
-  ![docker hub pulls](https://img.shields.io/docker/pulls/_/yourls.svg) ![docker hub stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
 
 | Build | Status | Badges | (per-arch) |
 |:-:|:-:|:-:|:-:|

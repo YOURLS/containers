@@ -19,6 +19,7 @@ GitFetch: refs/heads/dist
 EOH
 
 for variant in apache fpm fpm-alpine; do
+	commit="$(dirCommit "$variant")"
 	variantAliases=$(./bin/generate-aliases.sh "$variant")
 
 	variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$variant/Dockerfile")"

@@ -59,26 +59,7 @@ join() {
 }
 
 for variant in apache fpm fpm-alpine; do
-	commit="$(dirCommit "$variant")"
-
-	fullVersion="$(git show "${commit}:${variant}/Dockerfile" | awk '$1 == "ENV" && $2 == "YOURLS_VERSION" { print $3; exit }')"
-
-	versionAliases=()
-	while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do
-		versionAliases+=( "$fullVersion" )
-		fullVersion="${fullVersion%[.-]*}"
-	done
-	versionAliases+=(
-		"$fullVersion"
-		latest
-	)
-
-	variantAliases=( "${versionAliases[@]/%/-$variant}" )
-	variantAliases=( "${variantAliases[@]//latest-/}" )
-
-	if [ "$variant" = 'apache' ]; then
-		variantAliases+=( "${versionAliases[@]}" )
-	fi
+	variantAliases=$(./bin/generate-aliases.sh "$variant")
 
 	variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$variant/Dockerfile")"
 	# shellcheck disable=SC2154

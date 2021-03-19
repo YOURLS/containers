@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-self="$(basename "${BASH_SOURCE[0]}")"
+self="bin/$(basename "${BASH_SOURCE[0]}")"
 cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
 
 # get the most recent commit which modified any of "$@"

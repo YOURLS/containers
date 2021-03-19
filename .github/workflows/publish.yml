@@ -54,7 +54,7 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Extract aliases
-        if: aliases
+        id: aliases
         run: echo ::set-output name=aliases::$(./bin/generate-aliases.sh ${{ matrix.variant }} ghcr.io/${{ secrets.REGISTRY_IMAGE }})
 
       - name: Docker build and push

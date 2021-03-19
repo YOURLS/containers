@@ -29,6 +29,10 @@ Check [the "library/yourls" manifest file in the docker-library/official-images 
 
 For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 
+### Is there an alternative Container Registry?
+
+Yes, YOURLS images are also [hosted on the GitHub Container Registry](https://github.com/orgs/YOURLS/packages/container/package/yourls).
+
 ---
 
 | Build | Status | Badges | (per-arch) |

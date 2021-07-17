@@ -1,5 +1,13 @@
 {
   "extends": [
     "config:base"
+  ],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "versionScheme": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?(?<compatibility>-.*)?$"
+    }
   ]
 }

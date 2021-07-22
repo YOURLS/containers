@@ -40,9 +40,13 @@ if (is_numeric($socket)) {
 	$socket = null;
 }
 
-$maxTries = 10;
+$maxTries = 20;
 do {
-	$mysql = new mysqli($host, YOURLS_DB_USER, YOURLS_DB_PASS, '', $port, $socket);
+
+        $mysql = mysqli_init();
+        if( file_exists("/etc/ssl/certs/db-ca.crt") ) { $mysql->ssl_set(NULL, NULL, "/etc/ssl/certs/db-ca.crt", NULL, NULL); }
+        $mysql->real_connect($host, YOURLS_DB_USER, YOURLS_DB_PASS, YOURLS_DB_NAME, $port);
+
 	if ($mysql->connect_error) {
 		fwrite($stderr, "\nMySQL Connection Error: ({$mysql->connect_errno}) {$mysql->connect_error}\n");
 		--$maxTries;

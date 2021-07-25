@@ -40,7 +40,7 @@ if (is_numeric($socket)) {
 	$socket = null;
 }
 
-$maxTries = 20;
+$maxTries = 10;
 do {
 
         $mysql = mysqli_init();

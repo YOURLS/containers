@@ -19,6 +19,9 @@ jobs:
           mkdir dist/bin
           cp ./bin/* dist/bin
 
+      - name: Copy version
+        run: cp ./yourls_version dist/
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.8.0
         with:

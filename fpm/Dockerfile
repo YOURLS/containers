@@ -1,6 +1,5 @@
 FROM php:8.0-fpm
 
-LABEL maintainer="yourls@yourls.org"
 LABEL org.opencontainers.image.title="YOURLS"
 LABEL org.opencontainers.image.description="Your Own URL Shortener"
 LABEL org.opencontainers.image.url="https://yourls.org/"

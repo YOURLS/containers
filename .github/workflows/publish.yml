@@ -61,7 +61,7 @@ jobs:
         run: echo ::set-output name=aliases::$(./bin/generate-aliases.sh ${{ matrix.variant }} ghcr.io/${{ secrets.REGISTRY_IMAGE }})
 
       - name: Docker build and push
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v2.7.0
         with:
           context: ./${{ matrix.variant }}/
           file: ./${{ matrix.variant }}/Dockerfile

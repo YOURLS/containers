@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.url="https://yourls.org/"
 LABEL org.opencontainers.image.documentation="https://yourls.org/"
 LABEL org.opencontainers.image.vendor="YOURLS Org"
 LABEL org.opencontainers.image.authors="YOURLS"
-LABEL org.opencontainers.image.version="1.8.1"
+LABEL org.opencontainers.image.version="1.8.2"
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -24,8 +24,8 @@ RUN { \
 
 
 RUN set -eux; \
-    version="1.8.1"; \
-    sha256="92b0666af3e3ad4a783e78cba93687e9a24acf216606a6d457819c5d36d2cfe4"; \
+    version="1.8.2"; \
+    sha256="6d818622e3ba1d5785c2dbcc088be6890f5675fd4f24a2e3111eda4523bbd7ae"; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${version}.tar.gz"; \
     echo "$sha256 *yourls.tar.gz" | sha256sum -c -; \
 # upstream tarballs include ./YOURLS-${version}/ so this gives us /usr/src/YOURLS-${version}

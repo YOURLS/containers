@@ -5,7 +5,7 @@
 
     RewriteCond %{LA-U:REQUEST_FILENAME} -d
     RewriteCond %{REQUEST_URI} !(.*)/$
-    RewriteCond %{HTTP:X-Forwarded-Proto} https 
+    RewriteCond %{HTTP:X-Forwarded-Proto} https
     RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI}/ [L,R=301,QSA]
 
     RewriteCond %{REQUEST_FILENAME} !-f

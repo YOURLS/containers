@@ -19,7 +19,7 @@ jobs:
         run: ./bin/generate-variants.sh
 
       - name: Extract current version
-        run: echo "version=$(head -n 1 yourls_version)" >> $GITHUB_ENV
+        run: echo "version=$(head -n 1 yourls_version)" >> "$GITHUB_ENV"
 
       - name: Prepare Tools
         run: git clone https://github.com/docker-library/official-images.git ~/official-images
@@ -33,3 +33,16 @@ jobs:
           VARIANT: ${{ matrix.variant }}
 
       - run: docker images
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.0.20
+        with:
+          image-ref: yourls:${{ env.version }}-${{ matrix.variant }}
+          format: template
+          template: '@/contrib/sarif.tpl'
+          output: trivy-results.sarif
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: trivy-results.sarif

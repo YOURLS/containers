@@ -60,7 +60,7 @@ jobs:
 
       - name: Extract aliases
         id: aliases
-        run: echo ::set-output "name=aliases::$(./bin/generate-aliases.sh ${{ matrix.variant }} ghcr.io/${{ secrets.REGISTRY_IMAGE }})"
+        run: echo "::set-output name=aliases::$(./bin/generate-aliases.sh ${{ matrix.variant }} ghcr.io/${{ secrets.REGISTRY_IMAGE }})"
 
       - name: Docker build and push
         uses: docker/build-push-action@v2.7.0
@@ -89,7 +89,7 @@ jobs:
           mkdir -p "$HOME/.local/bin"
           mv bashbrew-amd64 "$HOME/.local/bin/bashbrew"
           chmod +x "$HOME/.local/bin/bashbrew"
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           bashbrew --version
 
       - name: Generate stackbrew

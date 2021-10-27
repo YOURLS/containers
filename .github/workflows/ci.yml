@@ -39,7 +39,7 @@ jobs:
       - run: docker images
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.0.21
+        uses: aquasecurity/trivy-action@0.0.22
         with:
           image-ref: yourls:${{ env.version }}-${{ matrix.variant }}
           format: template

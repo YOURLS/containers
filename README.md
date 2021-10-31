@@ -2,7 +2,7 @@
 
 > Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
 
-[![Build Status](https://github.com/YOURLS/docker-yourls/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker-yourls/actions)
+[![Build Status](https://github.com/YOURLS/docker/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker/actions)
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls/)
 [![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
 
@@ -31,7 +31,7 @@ For more information about the official images process, see the [docker-library/
 
 ### Is there an alternative Container Registry?
 
-Yes, YOURLS images are also [hosted on the GitHub Container Registry](https://github.com/orgs/YOURLS/packages/container/package/yourls).
+Yes, YOURLS images are also [hosted on the GitHub Container Registry](https://github.com/YOURLS/YOURLS/pkgs/container/yourls).
 
 ---
 

@@ -10,11 +10,11 @@ cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
 getArches 'yourls'
 
 cat <<-EOH
-# this file is generated via https://github.com/YOURLS/docker-yourls/blob/$(fileCommit "$self")/$self
+# this file is generated via https://github.com/YOURLS/docker/blob/$(fileCommit "$self")/$self
 
 Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)
-GitRepo: https://github.com/YOURLS/docker-yourls.git
+GitRepo: https://github.com/YOURLS/docker.git
 GitFetch: refs/heads/dist
 EOH
 

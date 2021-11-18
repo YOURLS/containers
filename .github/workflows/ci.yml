@@ -12,10 +12,13 @@ jobs:
   metadata:
     name: Metadata
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version-step.outputs.version }}
     steps:
       - uses: actions/checkout@v2.4.0
 
       - name: Extract current version
+        id: version-step
         run: echo "::set-output name=version::$(head -n 1 yourls_version)"
 
   build:

@@ -43,11 +43,13 @@ jobs:
           context: ${{ matrix.variant }}
           tags: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
           outputs: type=docker,dest=/tmp/container-image.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Save image
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.variant }}-artifact
+          name: ${{ matrix.variant }}-image
           path: /tmp/container-image.tar
           retention-days: 1
 
@@ -66,7 +68,7 @@ jobs:
       - name: Retrieve image artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ matrix.variant }}-artifact
+          name: ${{ matrix.variant }}-image
 
       - name: Load image
         run: docker load --input container-image.tar
@@ -89,7 +91,7 @@ jobs:
       - name: Retrieve image artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ matrix.variant }}-artifact
+          name: ${{ matrix.variant }}-image
 
       - name: Load image
         run: docker load --input container-image.tar

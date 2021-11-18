@@ -33,23 +33,22 @@ jobs:
 
       - name: Generate variants
         run: ./bin/generate-variants.sh
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Build
-        run: docker build -t "${IMAGE}" "${VARIANT}"
-        env:
-          IMAGE: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
-          VARIANT: ${{ matrix.variant }}
-
-      - name: Build Docker image
-        run: docker save --output container-image.tar "$IMAGE"
-        env:
-          IMAGE: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.variant }}
+          tags: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
+          outputs: type=docker,dest=/tmp/container-image.tar
 
       - name: Save image
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.variant }}-artifact
-          path: container-image.tar
+          path: /tmp/container-image.tar
           retention-days: 1
 
   testing:
@@ -68,7 +67,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.variant }}-artifact
-          path: container-image.tar
 
       - name: Load image
         run: docker load --input container-image.tar
@@ -90,7 +88,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.variant }}-artifact
-          path: container-image.tar
 
       - name: Load image
         run: docker load --input container-image.tar

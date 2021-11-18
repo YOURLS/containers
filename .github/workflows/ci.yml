@@ -84,6 +84,8 @@ jobs:
       matrix:
         variant: [fpm-alpine, fpm, apache]
     steps:
+      - uses: actions/checkout@v2.4.0
+
       - name: Retrieve image artifact
         uses: actions/download-artifact@v2
         with:

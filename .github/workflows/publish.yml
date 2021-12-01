@@ -10,6 +10,8 @@ jobs:
   files:
     name: Files
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2.4.0
 
@@ -35,6 +37,9 @@ jobs:
   images:
     name: Images
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     needs: files
     strategy:
       matrix:

@@ -10,7 +10,7 @@ if (!function_exists('getenv_docker')) {
         if ($fileEnv = getenv($name . '_FILE')) {
             return trim(file_get_contents($fileEnv));
         }
-        if ($value = getenv($name)) {
+        if (($value = getenv($name)) !== false) {
             return $value;
         }
 

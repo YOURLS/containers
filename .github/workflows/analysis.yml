@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: '43 2 * * 6'
   workflow_call:
+    inputs:
+      artifact:
+        required: false
+        default: true
+        type: string
   workflow_dispatch:
 
 jobs:
@@ -24,13 +29,13 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v2
-        if: github.event_name == 'workflow_call'
+        if: inputs.artifact
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.2.2
-        if: github.event_name == 'workflow_call'
+        if: inputs.artifact
         with:
           input: container-image.tar
           format: template
@@ -39,7 +44,7 @@ jobs:
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.2.2
-        if: github.event_name != 'workflow_call'
+        if: "! inputs.artifact"
         with:
           image-ref: ghcr.io/yourls/yourls:${{ matrix.variant }}
           format: template

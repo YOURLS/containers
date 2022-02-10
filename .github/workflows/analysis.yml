@@ -24,27 +24,27 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v2
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_call'
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.2.2
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_call'
         with:
           input: container-image.tar
           format: template
           template: '@/contrib/sarif.tpl'
-          output: trivy-results.sarif
+          output: results.sarif
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.2.2
-        if: github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'workflow_call'
         with:
           image-ref: ghcr.io/yourls/yourls:${{ matrix.variant }}
           format: template
           template: '@/contrib/sarif.tpl'
-          output: trivy-results.sarif
+          output: results.sarif
 
       - name: Upload scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1

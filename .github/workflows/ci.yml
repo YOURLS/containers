@@ -57,7 +57,7 @@ jobs:
   testing:
     name: Test
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - metadata
       - build
     strategy:
@@ -84,6 +84,6 @@ jobs:
   analysis:
     name: Analysis
     uses: ./.github/workflows/analysis.yml
-    needs: 
+    needs:
       - metadata
       - build

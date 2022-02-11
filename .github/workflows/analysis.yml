@@ -11,6 +11,7 @@ on:
         required: false
         default: true
         type: string
+        description: True if analysis must be run against a built artifact
   workflow_dispatch:
 
 jobs:

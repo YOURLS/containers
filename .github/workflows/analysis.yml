@@ -45,7 +45,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.2.2
         if: "! inputs.artifact"
         with:
-          image-ref: ghcr.io/yourls/yourls:${{ matrix.variant }}
+          image-ref: ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ matrix.variant }}
           format: template
           template: '@/contrib/sarif.tpl'
           output: results.sarif

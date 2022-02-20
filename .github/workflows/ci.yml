@@ -1,6 +1,6 @@
 # https://docs.github.com/actions
 
-name: Docker CI
+name: CI
 
 on:
   push:
@@ -21,19 +21,41 @@ jobs:
         id: version-step
         run: echo "::set-output name=version::$(head -n 1 yourls_version)"
 
+  files:
+    name: Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate variants
+        run: ./bin/generate-variants.sh dist/
+
+      - name: Prepare scripts
+        run: |
+          mkdir dist/bin
+          cp ./bin/* dist/bin
+          rm ./dist/bin/generate-variants.sh
+
+      - name: Save files
+        uses: actions/upload-artifact@v2
+        with:
+          name: context-files
+          path: dist
+
   build:
     name: Build
     runs-on: ubuntu-latest
     needs:
       - metadata
+      - files
     strategy:
       matrix:
         variant: [fpm-alpine, fpm, apache]
     steps:
-      - uses: actions/checkout@v2.4.0
-
-      - name: Generate variants
-        run: ./bin/generate-variants.sh
+      - name: Retrieve context files
+        uses: actions/download-artifact@v2
+        with:
+          name: context-files
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -42,10 +64,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ${{ matrix.variant }}
-          tags: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
+          tags: yourls-test:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
           outputs: type=docker,dest=/tmp/container-image.tar
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=${{ matrix.variant }}
+          cache-to: type=gha,scope=${{ matrix.variant }},mode=max
 
       - name: Save image
         uses: actions/upload-artifact@v2
@@ -54,7 +76,7 @@ jobs:
           path: /tmp/container-image.tar
           retention-days: 1
 
-  testing:
+  test:
     name: Test
     runs-on: ubuntu-latest
     needs:
@@ -79,11 +101,31 @@ jobs:
       - name: Test
         run: ./test/run.sh "${IMAGE}"
         env:
-          IMAGE: yourls:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
+          IMAGE: yourls-test:${{ needs.metadata.outputs.version }}-${{ matrix.variant }}
 
   analysis:
     name: Analysis
     uses: ./.github/workflows/analysis.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     needs:
       - metadata
       - build
+
+  release:
+    name: Release
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - metadata
+      - build
+      - test
+    uses: ./.github/workflows/release.yml
+    permissions:
+      contents: write
+      packages: write
+    with:
+      version: ${{ needs.metadata.outputs.version }}
+    secrets:
+      image: ${{ secrets.REGISTRY_IMAGE }}

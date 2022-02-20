@@ -8,9 +8,9 @@ declare -A cmd=(
 )
 
 declare -A extras=(
-	[apache]='\nRUN a2enmod rewrite expires'
+	[apache]='RUN a2enmod rewrite expires'
 	[fpm]=''
-	[fpm-alpine]='\nRUN apk add --no-cache bash'
+	[fpm-alpine]='RUN apk add --no-cache bash'
 )
 
 declare -A files=(
@@ -22,16 +22,6 @@ declare -A files=(
 cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
 
 version="$(head -n 1 yourls_version)"
-# Using Packagist API
-#if [ -z "$version" ]; then
-#	version="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r '.packages["yourls/yourls"]')"
-#fi
-#sha256="$(curl -fsSL 'https://packagist.org/p/yourls/yourls.json' | jq -r ".packages['yourls/yourls']['${version}'].dist.shasum")"
-
-# Using GitHub API
-if [ -z "$version" ]; then
-	version="$(curl -fsSL 'https://api.github.com/repos/YOURLS/YOURLS/releases/latest' | jq -r '.tag_name')"
-fi
 sha256="$(curl -fsSL "https://github.com/YOURLS/YOURLS/archive/${version}.tar.gz" | sha256sum | awk '{ print $1 }')"
 
 baseFolder="$1"
@@ -56,6 +46,4 @@ for variant in apache fpm fpm-alpine; do
 	if [ "$variant" = 'apache' ]; then
 		cp -a yourls.vhost "$baseFolder$variant/.htaccess"
 	fi
-
-	ciVariants="$variant${ciVariants:+, $ciVariants}"
 done

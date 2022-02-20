@@ -1,4 +1,10 @@
-FROM php:8.0-%%VARIANT%%
+ARG PHP_VARIANT="%%VARIANT%%"
+
+FROM php:8.0-${PHP_VARIANT}
+
+# renovate: depName=YOURLS/YOURLS:@gitlab-org/nk-js
+ARG YOURLS_VERSION="1.8.2"
+ARG YOURLS_SHA256="6d818622e3ba1d5785c2dbcc088be6890f5675fd4f24a2e3111eda4523bbd7ae"
 
 LABEL org.opencontainers.image.title="YOURLS"
 LABEL org.opencontainers.image.description="Your Own URL Shortener"
@@ -6,14 +12,15 @@ LABEL org.opencontainers.image.url="https://yourls.org/"
 LABEL org.opencontainers.image.documentation="https://yourls.org/"
 LABEL org.opencontainers.image.vendor="YOURLS Org"
 LABEL org.opencontainers.image.authors="YOURLS"
-LABEL org.opencontainers.image.version="%%VERSION%%"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 
 # install the PHP extensions we need
 RUN set -eux; \
     docker-php-ext-install -j "$(nproc)" bcmath opcache pdo_mysql mysqli
 
 # set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
+# see https://www.php.net/manual/en/opcache.installation.php
 RUN { \
         echo 'opcache.memory_consumption=128'; \
         echo 'opcache.interned_strings_buffer=8'; \
@@ -21,22 +28,24 @@ RUN { \
         echo 'opcache.revalidate_freq=2'; \
         echo 'opcache.fast_shutdown=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
 %%VARIANT_EXTRAS%%
 
+ENV YOURLS_VERSION=$YOURLS_VERSION
+ENV YOURLS_SHA256=$YOURLS_SHA256
+
 RUN set -eux; \
-    version="%%VERSION%%"; \
-    sha256="%%SHA256%%"; \
-    curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${version}.tar.gz"; \
-    echo "$sha256 *yourls.tar.gz" | sha256sum -c -; \
-# upstream tarballs include ./YOURLS-${version}/ so this gives us /usr/src/YOURLS-${version}
+    curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \
+    echo "$YOURLS_SHA256 *yourls.tar.gz" | sha256sum -c -; \
+# upstream tarballs include ./YOURLS-${YOURLS_VERSION}/ so this gives us /usr/src/YOURLS-${YOURLS_VERSION}
     tar -xf yourls.tar.gz -C /usr/src/; \
 # move back to a common /usr/src/yourls
-    mv "/usr/src/YOURLS-${version}" /usr/src/yourls; \
+    mv "/usr/src/YOURLS-${YOURLS_VERSION}" /usr/src/yourls; \
     rm yourls.tar.gz; \
     chown -R www-data:www-data /usr/src/yourls
 
 COPY --chown=www-data:www-data config-docker.php /usr/src/yourls/user/
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
 %%VARIANT_FILES%%
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["%%CMD%%"]

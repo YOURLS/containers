@@ -1,7 +1,6 @@
-ARG PHP_VARIANT="%%VARIANT%%"
+FROM php:8.0-%%VARIANT%%
 
-FROM php:8.0-${PHP_VARIANT}
-
+# renovate: datasource=github-releases depName=YOURLS/YOURLS
 ARG YOURLS_VERSION="%%VERSION%%"
 ARG YOURLS_SHA256="%%SHA256%%"
 

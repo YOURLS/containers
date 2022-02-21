@@ -9,10 +9,18 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
-    },
+    }
+  ],
+  "regexManagers": [
     {
-      "matchDatasources": ["docker"],
-      "extractVersion": "^(?<version>[^\\-]+)-.*$"
+      "fileMatch": [
+        "(^|/|\\.)Dockerfile$",
+        "(^|/)Dockerfile\\.[^/]*$"
+      ],
+      "matchStrings": [
+        "FROM (?<depName>.*?):(?<currentValue>\\d+(?:\\.\\d+)*?)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "github-actions": {

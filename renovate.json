@@ -1,7 +1,8 @@
 {
   "extends": [
     "config:base",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    "regexManagers:dockerfileVersions"
   ],
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
@@ -18,7 +19,7 @@
         "(^|/)Dockerfile\\.[^/]*$"
       ],
       "matchStrings": [
-        "FROM (?<depName>.*?):(?<currentValue>\\d+(?:\\.\\d+)*?)"
+        "FROM (?<depName>.*?):(?<currentValue>\\d+(?:\\.\\d+)*)-"
       ],
       "datasourceTemplate": "docker"
     }

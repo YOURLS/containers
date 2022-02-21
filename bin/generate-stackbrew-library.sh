@@ -9,6 +9,8 @@ cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
 
 getArches 'yourls'
 
+version=$(head -n 1 yourls_version)
+
 cat <<-EOH
 # this file is generated via https://github.com/YOURLS/docker/blob/$(fileCommit "$self")/$self
 
@@ -20,7 +22,7 @@ EOH
 
 for variant in apache fpm fpm-alpine; do
 	commit="$(dirCommit "$variant")"
-	variantAliases=$(./bin/generate-aliases.sh "$variant")
+	variantAliases=$(./bin/generate-aliases.sh "$version" "$variant")
 
 	variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$variant/Dockerfile")"
 	# shellcheck disable=SC2154

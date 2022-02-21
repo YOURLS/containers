@@ -24,7 +24,7 @@ if [ "$variant" = 'apache' ]; then
 	variantAliases+=( "${versionAliases[@]}" )
 fi
 
-if [ -n "$2" ]; then
+if [ -n "$3" ]; then
 	variantAliases=( "${variantAliases[@]/#/$3:}" )
 fi
 

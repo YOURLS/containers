@@ -1,8 +1,8 @@
-ARG PHP_VERSION="8.0"
 ARG PHP_VARIANT="fpm"
 
-FROM php:${PHP_VERSION}-${PHP_VARIANT}
+FROM php:8.0-${PHP_VARIANT}
 
+# renovate: depName=YOURLS/YOURLS:@gitlab-org/nk-js
 ARG YOURLS_VERSION="1.8.2"
 ARG YOURLS_SHA256="6d818622e3ba1d5785c2dbcc088be6890f5675fd4f24a2e3111eda4523bbd7ae"
 
@@ -14,7 +14,6 @@ LABEL org.opencontainers.image.vendor="YOURLS Org"
 LABEL org.opencontainers.image.authors="YOURLS"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.version="$YOURLS_VERSION"
-LABEL org.opencontainers.image.base.name="docker.io/library/php:${PHP_VERSION}-${PHP_VARIANT}"
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -31,6 +30,9 @@ RUN { \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 
+
+ENV YOURLS_VERSION=$YOURLS_VERSION
+ENV YOURLS_SHA256=$YOURLS_SHA256
 
 RUN set -eux; \
     curl -o yourls.tar.gz -fsSL "https://github.com/YOURLS/YOURLS/archive/${YOURLS_VERSION}.tar.gz"; \

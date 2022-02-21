@@ -36,6 +36,9 @@ jobs:
           cp ./bin/* dist/bin
           rm ./dist/bin/generate-variants.sh
 
+      - name: Copy version
+        run: cp ./yourls_version dist/
+
       - name: Save files
         uses: actions/upload-artifact@v2
         with:

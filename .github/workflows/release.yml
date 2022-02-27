@@ -96,6 +96,17 @@ jobs:
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v2.0.1
+
+      - name: Sign images
+        run: |
+          echo ${COSIGN_KEY} > /tmp/cosign.key && \
+          cosign sign --key /tmp/cosign.key ${TAGS}
+        env:
+          TAGS: ${{ steps.aliases.outputs.aliases }}
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+
   hub:
     name: Hub
     runs-on: ubuntu-latest

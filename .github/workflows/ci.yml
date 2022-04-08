@@ -56,7 +56,7 @@ jobs:
         variant: [fpm-alpine, fpm, apache]
     steps:
       - name: Retrieve context files
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: context-files
 
@@ -94,7 +94,7 @@ jobs:
           repository: docker-library/official-images
 
       - name: Retrieve image artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.variant }}-image
 

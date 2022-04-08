@@ -28,7 +28,7 @@ jobs:
       contents: write
     steps:
       - name: Retrieve context files
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: context-files
 
@@ -56,7 +56,7 @@ jobs:
           - apache
     steps:
       - name: Retrieve context files
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: context-files
 
@@ -75,7 +75,7 @@ jobs:
         run: echo "::set-output name=aliases::$(bash ./bin/generate-aliases.sh ${{ inputs.version }} ${{ matrix.variant }} ghcr.io/${{ secrets.image }})"
 
       - name: Retrieve image artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         if: inputs.artifact
         with:
           name: ${{ matrix.variant }}-image

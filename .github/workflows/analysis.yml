@@ -27,7 +27,7 @@ jobs:
         variant: [fpm-alpine, fpm, apache]
     steps:
       - name: Retrieve image artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         if: inputs.artifact
         with:
           name: ${{ matrix.variant }}-image

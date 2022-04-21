@@ -1,4 +1,4 @@
-# YOURLS using Docker
+# YOURLS using Docker [![Listed in Awesome YOURLS!](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls/)
 
 > Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
 

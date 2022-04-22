@@ -1,11 +1,11 @@
-# YOURLS using Docker [![Listed in Awesome YOURLS!](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls/)
+# YOURLS using Docker 
 
 > Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
 
 [![Build Status](https://github.com/YOURLS/docker/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker/actions)
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls/)
 [![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls/)
-
+[![Listed in Awesome YOURLS!](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls/)
 
 ## About
 

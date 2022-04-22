@@ -1,4 +1,4 @@
-# YOURLS using Docker 
+# YOURLS using Docker
 
 > Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
 

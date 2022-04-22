@@ -9,7 +9,7 @@
 
 ## About
 
-This is the Git repo of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [YOURLS](https://hub.docker.com/_/yourls/).
+This is the Git repository of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [YOURLS](https://hub.docker.com/_/yourls/).
 
 
 ## Usage
@@ -25,7 +25,7 @@ The [full description from Docker Hub](https://hub.docker.com/_/yourls/) is gene
 
 ### See a change merged here that doesn't show up on Docker Hub yet?
 
-Check [the "library/yourls" manifest file in the docker-library/official-images repo](https://github.com/docker-library/official-images/blob/master/library/yourls), especially [PRs with the "library/yourls" label on that repo](https://github.com/docker-library/official-images/labels/library%2Fyourls).
+Check [the "library/yourls" manifest file in the docker-library/official-images repository](https://github.com/docker-library/official-images/blob/master/library/yourls), especially [PRs with the "library/yourls" label on that repository](https://github.com/docker-library/official-images/labels/library%2Fyourls).
 
 For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 

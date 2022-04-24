@@ -1,8 +1,8 @@
 FROM php:8.0-apache
 
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
-ARG YOURLS_VERSION="1.8.2"
-ARG YOURLS_SHA256="6d818622e3ba1d5785c2dbcc088be6890f5675fd4f24a2e3111eda4523bbd7ae"
+ARG YOURLS_VERSION="1.9"
+ARG YOURLS_SHA256="212c4cd283f0b2b44e07da66a882cca4886e064f642bf4de8ecb8dbfb867e542"
 
 LABEL org.opencontainers.image.title="YOURLS"
 LABEL org.opencontainers.image.description="Your Own URL Shortener"

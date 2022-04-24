@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
 ARG YOURLS_VERSION="1.9"

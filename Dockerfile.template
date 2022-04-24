@@ -1,6 +1,6 @@
 FROM php:8.0-%%VARIANT%%
 
-# renovate: datasource=github-releases depName=YOURLS/YOURLS
+# renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
 ARG YOURLS_VERSION="1.8.2"
 ARG YOURLS_SHA256="%%SHA256%%"
 

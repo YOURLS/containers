@@ -95,30 +95,3 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.variant }}
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
-
-  hub:
-    name: Hub
-    runs-on: ubuntu-latest
-    needs:
-      - repository
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: dist
-
-      - name: Download bashbrew
-        run: |
-          wget https://doi-janky.infosiftr.net/job/bashbrew/job/master/lastSuccessfulBuild/artifact/bashbrew-amd64
-          mkdir -p "$HOME/.local/bin"
-          mv bashbrew-amd64 "$HOME/.local/bin/bashbrew"
-          chmod +x "$HOME/.local/bin/bashbrew"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          bashbrew --version
-
-      - name: Generate stackbrew
-        run: bash ./bin/generate-stackbrew-library.sh > stackbrew.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: stackbrew
-          path: stackbrew.txt

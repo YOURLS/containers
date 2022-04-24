@@ -1,0 +1,60 @@
+# https://docs.github.com/actions
+
+name: Hub
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stackbrew:
+    name: Stackbrew
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: dist
+
+      - name: Download bashbrew
+        run: |
+          wget https://doi-janky.infosiftr.net/job/bashbrew/job/master/lastSuccessfulBuild/artifact/bashbrew-amd64
+          mkdir -p "$HOME/.local/bin"
+          mv bashbrew-amd64 "$HOME/.local/bin/bashbrew"
+          chmod +x "$HOME/.local/bin/bashbrew"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          bashbrew --version
+
+      - name: Generate stackbrew
+        run: bash ./bin/generate-stackbrew-library.sh > yourls
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: stackbrew
+          path: yourls
+
+  submit:
+    name: Submit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.BOT_APP_ID }}
+          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: docker-library/official-images
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: stackbrew
+          path: library
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          push-to-fork: YOURLS/docker-library-official-images
+          commit-message: Update YOURLS
+          title: Update YOURLS

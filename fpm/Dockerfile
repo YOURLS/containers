@@ -1,6 +1,6 @@
 FROM php:8.0-fpm
 
-# renovate: datasource=github-releases depName=YOURLS/YOURLS
+# renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
 ARG YOURLS_VERSION="1.8.2"
 ARG YOURLS_SHA256="6d818622e3ba1d5785c2dbcc088be6890f5675fd4f24a2e3111eda4523bbd7ae"
 

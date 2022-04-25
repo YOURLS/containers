@@ -43,7 +43,7 @@ RUN set -eux; \
     chown -R www-data:www-data /usr/src/yourls
 
 COPY --chown=www-data:www-data config-docker.php /usr/src/yourls/user/
-COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin/
 %%VARIANT_FILES%%
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["%%CMD%%"]

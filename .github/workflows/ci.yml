@@ -60,6 +60,8 @@ jobs:
         with:
           name: context-files
 
+      - run: chmod +x ./*/docker-entrypoint.sh
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 

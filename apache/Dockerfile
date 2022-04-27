@@ -1,9 +1,5 @@
 FROM php:8.1-apache
 
-# renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
-ARG YOURLS_VERSION="1.9"
-ARG YOURLS_SHA256="212c4cd283f0b2b44e07da66a882cca4886e064f642bf4de8ecb8dbfb867e542"
-
 LABEL org.opencontainers.image.title="YOURLS"
 LABEL org.opencontainers.image.description="Your Own URL Shortener"
 LABEL org.opencontainers.image.url="https://yourls.org/"
@@ -11,7 +7,6 @@ LABEL org.opencontainers.image.documentation="https://yourls.org/"
 LABEL org.opencontainers.image.vendor="YOURLS Org"
 LABEL org.opencontainers.image.authors="YOURLS"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -28,6 +23,12 @@ RUN { \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 RUN a2enmod rewrite expires
+
+# renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
+ARG YOURLS_VERSION="1.9"
+ARG YOURLS_SHA256="212c4cd283f0b2b44e07da66a882cca4886e064f642bf4de8ecb8dbfb867e542"
+
+LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 
 ENV YOURLS_VERSION=$YOURLS_VERSION
 ENV YOURLS_SHA256=$YOURLS_SHA256

@@ -37,13 +37,6 @@ jobs:
     needs:
       - stackbrew
     steps:
-      - name: Generate token
-        uses: tibdex/github-app-token@v1
-        id: generate-token
-        with:
-          app_id: ${{ secrets.BOT_APP_ID }}
-          private_key: ${{ secrets.BOT_PRIVATE_KEY }}
-
       - uses: actions/checkout@v3
         with:
           repository: docker-library/official-images
@@ -56,7 +49,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ steps.generate-token.outputs.token }}
+          token: ${{ secrets.PAT_OI_PR }}
           push-to-fork: YOURLS/docker-library-official-images
           commit-message: Update YOURLS
           title: Update YOURLS

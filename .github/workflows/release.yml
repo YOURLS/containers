@@ -87,7 +87,7 @@ jobs:
         run: docker load -i container-image.tar
 
       - name: Docker build and push
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v3
         with:
           context: ./${{ matrix.variant }}/
           labels: |

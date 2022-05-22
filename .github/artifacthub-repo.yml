@@ -1,0 +1,8 @@
+# https://artifacthub.io/docs/topics/repositories/#repository-metadata
+
+repositoryID: 3a01128e-a93e-4bcf-95ae-ad04519681e3
+owners:
+  - name: YOURLS
+    email: yourls@yourls.org
+  - name: LeoColomb
+    email: git@colombaro.fr

@@ -60,7 +60,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x bin/* && chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x ./*/docker-entrypoint.sh
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v2.3.0
@@ -78,10 +78,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract aliases
-        id: aliases
-        run: echo "::set-output name=aliases::$(bash ./bin/generate-aliases.sh ${{ inputs.version }} ${{ matrix.variant }} ghcr.io/${{ secrets.image }})"
-
       - name: Retrieve image artifact
         uses: actions/download-artifact@v3
         if: inputs.artifact
@@ -97,6 +93,20 @@ jobs:
         id: meta
         with:
           images: ghcr.io/${{ secrets.image }}
+          flavor: |
+            latest=${{ matrix.variant == 'apache' }}
+            prefix=
+            suffix=
+          tags: |
+            # variant generic
+            type=semver,suffix=${{ matrix.variant }},pattern={{version}},priority=900,value=${{ inputs.version }}
+            type=semver,suffix=${{ matrix.variant }},pattern={{major}}.{{minor}},priority=800,value=${{ inputs.version }}
+            type=semver,suffix=${{ matrix.variant }},pattern={{major}},priority=700,value=${{ inputs.version }}
+            type=raw,priority=600,value=${{ matrix.variant }}
+            # apache specific
+            type=semver,enable=${{ matrix.variant == 'apache' }},pattern={{version}},priority=500,value=${{ inputs.version }}
+            type=semver,enable=${{ matrix.variant == 'apache' }},pattern={{major}}.{{minor}},priority=400,value=${{ inputs.version }}
+            type=semver,enable=${{ matrix.variant == 'apache' }},pattern={{major}},priority=300,value=${{ inputs.version }}
 
       - name: Docker build and push
         uses: docker/build-push-action@v3
@@ -107,7 +117,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=https://github.com/${{ secrets.image }}
             org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
-          tags: ${{ steps.aliases.outputs.aliases }}
+          tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
@@ -115,5 +125,5 @@ jobs:
       - name: Sign the images with GitHub OIDC
         run: cosign sign ${TAGS}
         env:
-          TAGS: ${{ steps.aliases.outputs.aliases }}
+          TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_EXPERIMENTAL: 1

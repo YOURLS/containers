@@ -62,6 +62,8 @@ jobs:
 
       - run: chmod +x bin/* && chmod +x ./*/docker-entrypoint.sh
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v2.3.0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -109,3 +111,9 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.variant }}
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
+
+      - name: Sign the images with GitHub OIDC
+        run: cosign sign ${TAGS}
+        env:
+          TAGS: ${{ steps.aliases.outputs.aliases }}
+          COSIGN_EXPERIMENTAL: 1

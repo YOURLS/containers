@@ -121,7 +121,7 @@ jobs:
             org.opencontainers.image.source=https://github.com/${{ secrets.image }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
-          cache-to: type=gha,scope=${{ matrix.variant }},mode=max
+          # cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
 
       - name: Sign the images with GitHub OIDC

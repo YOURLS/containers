@@ -26,8 +26,8 @@ RUN { \
 RUN a2enmod rewrite expires
 
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
-ARG YOURLS_VERSION="1.9"
-ARG YOURLS_SHA256="212c4cd283f0b2b44e07da66a882cca4886e064f642bf4de8ecb8dbfb867e542"
+ARG YOURLS_VERSION="1.9.1"
+ARG YOURLS_SHA256="0bf53290e8f86ea2e0121aac70f7c64d70d3dfb54823acb9dcc343dd7c5f455a"
 
 LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 

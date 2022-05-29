@@ -26,7 +26,7 @@ RUN { \
 %%VARIANT_EXTRAS%%
 
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
-ARG YOURLS_VERSION="1.9"
+ARG YOURLS_VERSION="1.9.1"
 ARG YOURLS_SHA256="%%SHA256%%"
 
 LABEL org.opencontainers.image.version="$YOURLS_VERSION"

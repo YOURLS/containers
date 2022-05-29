@@ -100,9 +100,9 @@ jobs:
             suffix=
           tags: |
             # variant generic
-            type=semver,suffix=${{ matrix.variant }},pattern={{version}},priority=900,value=${{ inputs.version }}
-            type=semver,suffix=${{ matrix.variant }},pattern={{major}}.{{minor}},priority=800,value=${{ inputs.version }}
-            type=semver,suffix=${{ matrix.variant }},pattern={{major}},priority=700,value=${{ inputs.version }}
+            type=semver,suffix=-${{ matrix.variant }},pattern={{version}},priority=900,value=${{ inputs.version }}
+            type=semver,suffix=-${{ matrix.variant }},pattern={{major}}.{{minor}},priority=800,value=${{ inputs.version }}
+            type=semver,suffix=-${{ matrix.variant }},pattern={{major}},priority=700,value=${{ inputs.version }}
             type=raw,priority=600,value=${{ matrix.variant }}
             # apache specific
             type=semver,enable=${{ matrix.variant == 'apache' }},pattern={{version}},priority=500,value=${{ inputs.version }}
@@ -115,9 +115,9 @@ jobs:
           context: ./${{ matrix.variant }}/
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
           labels: |
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.source=https://github.com/${{ secrets.image }}
             org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+            org.opencontainers.image.source=https://github.com/${{ secrets.image }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max

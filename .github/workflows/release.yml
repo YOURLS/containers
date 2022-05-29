@@ -50,6 +50,7 @@ jobs:
       packages: write
       id-token: write
     strategy:
+      fail-fast: false
       matrix:
         variant:
           - fpm-alpine

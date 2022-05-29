@@ -19,7 +19,7 @@ jobs:
 
       - name: Extract current version
         id: version-step
-        run: echo "::set-output name=version::$(head -n 1 yourls_version)"
+        run: echo "::set-output name=version::$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' Dockerfile.template)"
 
   files:
     name: Files
@@ -37,7 +37,7 @@ jobs:
           rm ./dist/bin/generate-variants.sh
 
       - name: Copy version
-        run: cp ./yourls_version dist/
+        run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' Dockerfile.template > ./dist/yourls_version
 
       - name: Save files
         uses: actions/upload-artifact@v3

@@ -21,7 +21,7 @@ declare -A files=(
 
 cd "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
 
-version="$(head -n 1 yourls_version)"
+version="$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' Dockerfile.template)"
 sha256="$(curl -fsSL "https://github.com/YOURLS/YOURLS/archive/${version}.tar.gz" | sha256sum | awk '{ print $1 }')"
 
 baseFolder="$1"

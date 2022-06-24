@@ -53,3 +53,7 @@ jobs:
           push-to-fork: YOURLS/docker-library-official-images
           commit-message: Update YOURLS
           title: Update YOURLS
+          delete-branch: true
+          body: |
+            Automated changes from [${{ github.repository }}](https://github.com/${{ github.repository }})
+            via [GitHub Actions run #${{ github.run_id }}](https://github.com/${{ github.repository }}/runs/${{ github.run_id }}).

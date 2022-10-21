@@ -102,6 +102,16 @@ $yourls_reserved_URL = [
     'porn', 'faggot', 'sex', 'nigger', 'fuck', 'cunt', 'dick',
 ];
 
+/**
+ * include plugin configuration, if set
+ */
+$pluginconfig_dir = getenv_docker('YOURLS_PLUGIN_CONFIG_DIR', '');
+if ( $pluginconfig_dir != '' ) {
+    foreach ( glob( $pluginconfig_dir."/*.php") as $pluginconfig) {
+        include $pluginconfig;
+    }
+}
+
 /*
  ** Personal settings would go after here.
  */

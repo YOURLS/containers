@@ -19,7 +19,7 @@ jobs:
 
       - name: Extract current version
         id: version-step
-        run: echo "::set-output name=version::$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' Dockerfile.template)"
+        run: echo "version=$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' Dockerfile.template)" >> $GITHUB_OUTPUT
 
   files:
     name: Files

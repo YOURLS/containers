@@ -128,4 +128,3 @@ jobs:
         run: cosign sign ${TAGS}
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
-          COSIGN_EXPERIMENTAL: 1

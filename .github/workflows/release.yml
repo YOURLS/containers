@@ -125,6 +125,7 @@ jobs:
           push: true
 
       - name: Sign the images with GitHub OIDC
-        run: "cosign sign ${TAGS}"
+        run: cosign sign ${TAGS}
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
+          COSIGN_EXPERIMENTAL: 1

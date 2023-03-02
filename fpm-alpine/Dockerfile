@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 LABEL org.opencontainers.image.title="YOURLS"
 LABEL org.opencontainers.image.description="Your Own URL Shortener"

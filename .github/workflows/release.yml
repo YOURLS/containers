@@ -126,6 +126,6 @@ jobs:
           push: true
 
       - name: Sign the images with GitHub OIDC
-        run: cosign sign ${IMAGE}
+        run: cosign sign --yes ${IMAGE}
         env:
           IMAGE: ghcr.io/${{ secrets.image }}@${{ steps.build.outputs.digest }}

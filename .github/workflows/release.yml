@@ -56,6 +56,26 @@ jobs:
           - fpm-alpine
           - fpm
           - apache
+        platform:
+          - linux/amd64
+          - linux/arm64
+          - linux/arm/v7
+          # - linux/arm/v6
+          - linux/arm/v5
+          - linux/386
+          - linux/mips64le
+          - linux/ppc64le
+          - linux/s390x
+        exclude:
+          - variant: fpm-alpine
+            platform: linux/arm/v5
+          - variant: fpm-alpine
+            platform: linux/mips64le
+        include:
+          - variant: fpm-alpine
+            platform: linux/arm/v6
+          # - variant: fpm-alpine
+          #   platform: linux/riscv64
     steps:
       - name: Retrieve context files
         uses: actions/download-artifact@v3
@@ -82,12 +102,12 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v3
-        if: inputs.artifact
+        if: inputs.artifact && matrix.platform == "linux/amd64"
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Load artifact image
-        if: inputs.artifact
+        if: inputs.artifact && matrix.platform == "linux/amd64"
         run: docker load -i container-image.tar
 
       - name: Docker meta
@@ -115,7 +135,7 @@ jobs:
         id: build
         with:
           context: ./${{ matrix.variant }}/
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
+          platforms: ${{ matrix.platform }}
           labels: |
             org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
             org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
@@ -125,7 +145,7 @@ jobs:
           # cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
 
-      - name: Sign the images with GitHub OIDC
+      - name: Sign the image with GitHub OIDC
         run: cosign sign --yes ${IMAGE}
         env:
           IMAGE: ghcr.io/${{ secrets.image }}@${{ steps.build.outputs.digest }}

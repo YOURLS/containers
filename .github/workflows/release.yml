@@ -53,29 +53,36 @@ jobs:
       fail-fast: false
       matrix:
         variant:
-          - fpm-alpine
-          - fpm
           - apache
-        platform:
-          - linux/amd64
-          - linux/arm64
-          - linux/arm/v7
-          # - linux/arm/v6
-          - linux/arm/v5
-          - linux/386
-          - linux/mips64le
-          - linux/ppc64le
-          - linux/s390x
-        exclude:
-          - variant: fpm-alpine
-            platform: linux/arm/v5
-          - variant: fpm-alpine
-            platform: linux/mips64le
+          - fpm
+          - fpm-alpine
+        # platform:
+        #   - linux/amd64
+        #   - linux/arm64
+        #   - linux/arm/v7
+        #   # - linux/arm/v6
+        #   - linux/arm/v5
+        #   - linux/386
+        #   - linux/mips64le
+        #   - linux/ppc64le
+        #   - linux/s390x
+        # exclude:
+        #   - variant: fpm-alpine
+        #     platform: linux/arm/v5
+        #   - variant: fpm-alpine
+        #     platform: linux/mips64le
+        # include:
+        #   - variant: fpm-alpine
+        #     platform: linux/arm/v6
+        #   - variant: fpm-alpine
+        #     platform: linux/riscv64
         include:
+          - variant: apache
+            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
+          - variant: fpm
+            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
           - variant: fpm-alpine
-            platform: linux/arm/v6
-          # - variant: fpm-alpine
-          #   platform: linux/riscv64
+            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
     steps:
       - name: Retrieve context files
         uses: actions/download-artifact@v3
@@ -102,12 +109,14 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v3
-        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
+        if: inputs.artifact
+        # if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Load artifact image
-        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
+        if: inputs.artifact
+        # if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         run: docker load -i container-image.tar
 
       - name: Docker meta

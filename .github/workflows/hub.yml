@@ -55,5 +55,4 @@ jobs:
           title: Update YOURLS
           delete-branch: true
           body: |
-            Automated changes from [${{ github.repository }}](https://github.com/${{ github.repository }})
-            via [GitHub Actions run #${{ github.run_id }}](https://github.com/${{ github.repository }}/runs/${{ github.run_id }}).
+            Automated changes from [${{ github.repository }}](https://github.com/${{ github.repository }}) via [GitHub Actions run #${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).

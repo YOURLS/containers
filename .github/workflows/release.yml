@@ -102,12 +102,12 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v3
-        if: inputs.artifact && matrix.platform == "linux/amd64"
+        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Load artifact image
-        if: inputs.artifact && matrix.platform == "linux/amd64"
+        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         run: docker load -i container-image.tar
 
       - name: Docker meta

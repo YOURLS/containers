@@ -33,7 +33,7 @@ jobs:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
-        uses: aquasecurity/trivy-action@0.9.1
+        uses: aquasecurity/trivy-action@0.9.2
         if: inputs.artifact
         with:
           input: container-image.tar
@@ -42,7 +42,7 @@ jobs:
           output: results.sarif
 
       - name: Run Trivy scanner
-        uses: aquasecurity/trivy-action@0.9.1
+        uses: aquasecurity/trivy-action@0.9.2
         if: "! inputs.artifact"
         with:
           image-ref: ghcr.io/${{ secrets.REGISTRY_IMAGE }}:${{ matrix.variant }}

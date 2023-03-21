@@ -32,7 +32,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x bin/* && chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x bin/* && chmod +x ./*/container-entrypoint.sh
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.2
@@ -89,7 +89,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x ./*/container-entrypoint.sh
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.0.1

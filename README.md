@@ -1,20 +1,23 @@
-# YOURLS using Docker
+# YOURLS using Containers
 
-> Official [Docker](https://docker.com) images for [YOURLS](https://yourls.org).
+> Official [container](https://opencontainers.org/) images for [YOURLS](https://yourls.org).
 
-[![Build Status](https://github.com/YOURLS/docker/workflows/Docker%20CI/badge.svg)](https://github.com/YOURLS/docker/actions)
+[![Build Status](https://github.com/YOURLS/docker/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/docker/actions/workflows/ci.yml)
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls)
 [![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls)
 [![Listed in Awesome YOURLS](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls)
 
 ## About
 
-This is the Git repository of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [YOURLS](https://hub.docker.com/_/yourls).
+This is the Git repository of YOURLS container images.
+* The container images ([`ghcr.io/yourls/yourls`](https://github.com/YOURLS/YOURLS/pkgs/container/yourls));
+* The Docker ["Official Image"](https://docs.docker.com/docker-hub/official_repos/) 
+  ([`docker.io/library/yourls`](https://hub.docker.com/_/yourls)).
 
 
 ## Usage
 
-See [the Docker Hub page](https://hub.docker.com/_/yourls) for the full readme on how to use this Docker image and for information regarding contributing and issues.
+See [the Docker Hub page](https://hub.docker.com/_/yourls) for the full readme on how to use this container image and for information regarding contributing and issues.
 
 
 ## FAQ

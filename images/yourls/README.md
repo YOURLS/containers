@@ -16,7 +16,8 @@ bootstrapping a running deployment for the requirements of the YOURLS applicatio
 
 ## Prerequisites
 
-* A container engine
+* OCI-compliant engine
+* MySQL-compatible container or host ready
 
 ## Usage
 

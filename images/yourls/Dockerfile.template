@@ -1,13 +1,4 @@
-FROM php:8.2-%%VARIANT%%
-
-LABEL org.opencontainers.image.title="YOURLS"
-LABEL org.opencontainers.image.description="Your Own URL Shortener"
-LABEL org.opencontainers.image.url="https://yourls.org/"
-LABEL org.opencontainers.image.documentation="https://yourls.org/"
-LABEL org.opencontainers.image.vendor="YOURLS Org"
-LABEL org.opencontainers.image.authors="YOURLS"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md"
+FROM php:8.2.4-%%VARIANT%%
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -28,8 +19,6 @@ RUN { \
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
 ARG YOURLS_VERSION="1.9.2"
 ARG YOURLS_SHA256="%%SHA256%%"
-
-LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 
 ENV YOURLS_VERSION=$YOURLS_VERSION
 ENV YOURLS_SHA256=$YOURLS_SHA256

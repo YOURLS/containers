@@ -32,18 +32,18 @@ jobs:
 
       - name: Prepare scripts
         run: |
-          mkdir dist/bin
-          cp ./images/yourls/bin/* dist/bin
-          rm ./dist/bin/generate-variants.sh
+          mkdir ./images/yourls/dist/bin
+          cp ./images/yourls/bin/* ./images/yourls/dist/bin
+          rm ./images/yourls/dist/bin/generate-variants.sh
 
       - name: Copy version
-        run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' ./images/yourls/Dockerfile.template > ./dist/yourls_version
+        run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' ./images/yourls/Dockerfile.template > ./images/yourls/dist/yourls_version
 
       - name: Save files
         uses: actions/upload-artifact@v3
         with:
           name: context-files
-          path: dist
+          path: ./images/yourls/dist
 
   build:
     name: Build

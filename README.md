@@ -3,7 +3,7 @@
 > Official [container](https://opencontainers.org/) images for [YOURLS](https://yourls.org).
 
 [![Build Status](https://github.com/YOURLS/docker/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/docker/actions/workflows/ci.yml)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/yourls-images)](https://artifacthub.io/packages/search?repo=yourls-images)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/yourls)](https://artifacthub.io/packages/search?repo=yourls-images)
 [![Listed in Awesome YOURLS](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls)
 
 ## About
@@ -162,7 +162,7 @@ Some potentially helpful resources:
 
 > **Warning** The FastCGI protocol is inherently trusting, and thus *extremely* insecure to expose outside of a private container network -- unless you know *exactly* what you are doing (and are willing to accept the extreme risk), do not use Docker's `--publish` (`-p`) flag with this image variant.
 
-## `yourls:<version>-alpine`
+### `yourls:<version>-alpine`
 
 This image is based on the popular [Alpine Linux project](https://alpinelinux.org), available in [the `alpine` official image](https://hub.docker.com/_/alpine). Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
 

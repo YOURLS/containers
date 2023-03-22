@@ -40,8 +40,8 @@ for variant in apache fpm fpm-alpine; do
 		-e 's/%%CMD%%/'"${cmd[$variant]}"'/' \
 		"$baseFolder$variant/Dockerfile"
 
-	cp -a docker-entrypoint.sh "$baseFolder$variant/docker-entrypoint.sh"
-	cp -a config-docker.php "$baseFolder$variant/config-docker.php"
+	cp -a container-entrypoint.sh "$baseFolder$variant/container-entrypoint.sh"
+	cp -a config-container.php "$baseFolder$variant/config-container.php"
 
 	if [ "$variant" = 'apache' ]; then
 		cp -a yourls.vhost "$baseFolder$variant/.htaccess"

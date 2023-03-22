@@ -1,6 +1,6 @@
 # https://docs.github.com/actions
 
-name: Hub
+name: Docker Hub
 
 on:
   workflow_dispatch:

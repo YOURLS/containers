@@ -72,12 +72,12 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	# We want to copy the initial config if the actual config file doesn't already
 	# exist OR if it is an empty file (e.g. it has been created for the volume mount).
 	if [ ! -s user/config.php ]; then
-		cp /usr/src/yourls/user/config-docker.php user/config.php
+		cp /usr/src/yourls/user/config-container.php user/config.php
 
 		: "${YOURLS_USER:=}"
 		: "${YOURLS_PASS:=}"
 		if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}" ]; then
-			result=$(sed "s/  getenv_docker('YOURLS_USER') => getenv_docker('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS//&/\\&}\',/g" user/config.php)
+			result=$(sed "s/  getenv_container('YOURLS_USER') => getenv_container('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS//&/\\&}\',/g" user/config.php)
 			echo "$result" > user/config.php
 		fi
 

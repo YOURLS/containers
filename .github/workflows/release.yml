@@ -32,7 +32,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x bin/* && chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x bin/* && chmod +x ./*/container-entrypoint.sh
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.2
@@ -89,7 +89,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x ./*/container-entrypoint.sh
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.0.1
@@ -149,6 +149,17 @@ jobs:
             org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
             org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
             org.opencontainers.image.source=https://github.com/${{ secrets.image }}
+            org.opencontainers.image.version=${{ inputs.version }}
+            org.opencontainers.image.title=YOURLS
+            org.opencontainers.image.description=Your Own URL Shortener
+            org.opencontainers.image.url=https://yourls.org
+            org.opencontainers.image.documentation=https://yourls.org
+            org.opencontainers.image.vendor=YOURLS Org
+            org.opencontainers.image.authors=YOURLS
+            org.opencontainers.image.licenses=MIT
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md
+            io.artifacthub.package.alternative-locations=docker.io/library/yourls
+            io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
           # cache-to: type=gha,scope=${{ matrix.variant }},mode=max

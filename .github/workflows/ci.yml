@@ -19,7 +19,7 @@ jobs:
 
       - name: Extract current version
         id: version-step
-        run: echo "version=$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' Dockerfile.template)" >> $GITHUB_OUTPUT
+        run: echo "version=$(grep -oP '^ARG YOURLS_VERSION=\"\K[^\"]+' images/yourls/Dockerfile.template)" >> $GITHUB_OUTPUT
 
   files:
     name: Files
@@ -28,22 +28,22 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Generate variants
-        run: ./bin/generate-variants.sh dist/
+        run: ./images/yourls/bin/generate-variants.sh dist/
 
       - name: Prepare scripts
         run: |
-          mkdir dist/bin
-          cp ./bin/* dist/bin
-          rm ./dist/bin/generate-variants.sh
+          mkdir ./images/yourls/dist/bin
+          cp ./images/yourls/bin/* ./images/yourls/dist/bin
+          rm ./images/yourls/dist/bin/generate-variants.sh
 
       - name: Copy version
-        run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' Dockerfile.template > ./dist/yourls_version
+        run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' ./images/yourls/Dockerfile.template > ./images/yourls/dist/yourls_version
 
       - name: Save files
         uses: actions/upload-artifact@v3
         with:
           name: context-files
-          path: dist
+          path: ./images/yourls/dist
 
   build:
     name: Build
@@ -60,7 +60,7 @@ jobs:
         with:
           name: context-files
 
-      - run: chmod +x ./*/docker-entrypoint.sh
+      - run: chmod +x ./*/container-entrypoint.sh
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

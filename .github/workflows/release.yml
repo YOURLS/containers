@@ -160,6 +160,22 @@ jobs:
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md
             io.artifacthub.package.alternative-locations=docker.io/library/yourls
             io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
+          outputs: >-
+            registry,
+            annotation-org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }},
+            annotation-org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }},
+            annotation-org.opencontainers.image.source=https://github.com/${{ secrets.image }},
+            annotation-org.opencontainers.image.version=${{ inputs.version }},
+            annotation-org.opencontainers.image.title=YOURLS,
+            annotation-org.opencontainers.image.description=Your Own URL Shortener,
+            annotation-org.opencontainers.image.url=https://yourls.org,
+            annotation-org.opencontainers.image.documentation=https://yourls.org,
+            annotation-org.opencontainers.image.vendor=YOURLS Org,
+            annotation-org.opencontainers.image.authors=YOURLS,
+            annotation-org.opencontainers.image.licenses=MIT,
+            annotation-io.artifacthub.package.readme-url=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md,
+            annotation-io.artifacthub.package.alternative-locations=docker.io/library/yourls,
+            annotation-io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
           # cache-to: type=gha,scope=${{ matrix.variant }},mode=max

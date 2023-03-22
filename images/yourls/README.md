@@ -151,7 +151,7 @@ services:
 
 Run `docker compose -f stack.yml up`, wait for it to initialize completely, and visit `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
 
-### Adding additional libraries / extensions
+## Adding additional libraries / extensions
 
 This image does not provide any additional PHP extensions or other libraries, even if they are required by popular plugins. There are an infinite number of possible plugins, and they potentially require any extension PHP supports. Including every PHP extension that exists would dramatically increase the image size.
 
@@ -194,7 +194,7 @@ See [this Hacker News comment thread](https://news.ycombinator.com/item?id=10782
 To minimize image size, it's uncommon for additional related tools (such as `git` or `bash`) to be included in Alpine-based images.
 Using this image as a base, add the things you need in your own Dockerfile (see the [`alpine` image description](https://hub.docker.com/_/alpine/) for examples of how to install packages if you are unfamiliar).
 
-## Docker Hub reference
+## Docker Hub
 
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls)
 [![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls)

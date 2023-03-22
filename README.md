@@ -1,6 +1,6 @@
 # YOURLS using Containers
 
-> Official [container](https://opencontainers.org/) images for [YOURLS](https://yourls.org).
+> Official [container](https://opencontainers.org) images for [YOURLS](https://yourls.org).
 
 [![Build Status](https://github.com/YOURLS/images/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/images/actions/workflows/ci.yml)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/yourls)](https://artifacthub.io/packages/search?repo=yourls-images)

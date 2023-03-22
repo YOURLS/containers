@@ -1,13 +1,4 @@
-FROM php:8.2-fpm-alpine
-
-LABEL org.opencontainers.image.title="YOURLS"
-LABEL org.opencontainers.image.description="Your Own URL Shortener"
-LABEL org.opencontainers.image.url="https://yourls.org/"
-LABEL org.opencontainers.image.documentation="https://yourls.org/"
-LABEL org.opencontainers.image.vendor="YOURLS Org"
-LABEL org.opencontainers.image.authors="YOURLS"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md"
+FROM php:8.2.4-fpm-alpine
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -28,8 +19,6 @@ RUN apk add --no-cache bash
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
 ARG YOURLS_VERSION="1.9.2"
 ARG YOURLS_SHA256="62a95ba766d62f3305d75944cbfe12d5a90c08c88fbf2f6e67150d36412b916f"
-
-LABEL org.opencontainers.image.version="$YOURLS_VERSION"
 
 ENV YOURLS_VERSION=$YOURLS_VERSION
 ENV YOURLS_SHA256=$YOURLS_SHA256

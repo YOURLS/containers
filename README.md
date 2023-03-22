@@ -3,24 +3,167 @@
 > Official [container](https://opencontainers.org/) images for [YOURLS](https://yourls.org).
 
 [![Build Status](https://github.com/YOURLS/docker/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/docker/actions/workflows/ci.yml)
-[![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls)
-[![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/yourls-images)](https://artifacthub.io/packages/search?repo=yourls-images)
 [![Listed in Awesome YOURLS](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls)
 
 ## About
 
-This is the Git repository of YOURLS container images.
-* The container images ([`ghcr.io/yourls/yourls`](https://github.com/YOURLS/YOURLS/pkgs/container/yourls));
-* The Docker ["Official Image"](https://docs.docker.com/docker-hub/official_repos/) 
-  ([`docker.io/library/yourls`](https://hub.docker.com/_/yourls)).
+This is the Git repository of the official container images for YOURLS.
 
+| Registry | Image | Version |
+|:--------:|:-----:|:-------:|
+| Docker Hub ["Official Image"](https://docs.docker.com/docker-hub/official_repos/) | `docker.io/library/yourls` (`yourls`) | [![Image Version](https://img.shields.io/docker/v/_/yourls?label=yourls&sort=semver)](https://hub.docker.com/_/yourls) |
+| GitHub Container Registry | `ghcr.io/yourls/yourls` | [![Image Version](https://img.shields.io/docker/v/_/yourls?label=yourls&sort=semver)](https://github.com/YOURLS/YOURLS/pkgs/container/yourls) |
 
 ## Usage
 
-See [the Docker Hub page](https://hub.docker.com/_/yourls) for the full readme on how to use this container image and for information regarding contributing and issues.
+### Start a YOURLS instance
 
+```console
+$ docker run --name some-yourls --link some-mysql:mysql \
+    -e YOURLS_SITE="https://example.com" \
+    -e YOURLS_USER="example_username" \
+    -e YOURLS_PASS="example_password" \
+    -d yourls
+```
 
-## FAQ
+The YOURLS instance accepts a number of environment variables for configuration, see [_Environment Variables_](#environment-variables) section below.
+
+If you'd like to use an external database instead of a linked `mysql` container, specify the hostname and port with `YOURLS_DB_HOST` along with the password in `YOURLS_DB_PASS` and the username in `YOURLS_DB_USER` (if it is something other than `root`):
+
+```console
+$ docker run --name some-yourlss -e YOURLS_DB_HOST=10.1.2.3:3306 \
+    -e YOURLS_DB_USER=... -e YOURLS_DB_PASS=... -d yourls
+```
+
+### Connect to the YOURLS administration interface
+
+If you'd like to be able to access the instance from the host without the container's IP, standard port mappings can be used:
+
+```console
+$ docker run --name some-yourls --link some-mysql:mysql -p 8080:80 -d yourls
+```
+
+Then, access it via `http://localhost:8080/admin/` or `http://<host-ip>:8080/admin/` in a browser.
+
+> **Note** On first instantiation, reaching the root folder will generate an error. Access the YOURLS administration interface via the path `/admin/`.
+
+### Environment Variables
+
+When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command line.  
+The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/#Config).  
+A few notable/important examples for using this Docker image include the following.
+
+#### `YOURLS_SITE`
+
+**Required.**  
+YOURLS instance URL, no trailing slash, lowercase.
+
+Example: `YOURLS_SITE="https://example.com"`
+
+#### `YOURLS_USER`
+
+**Required.**  
+YOURLS instance username.
+
+Example: `YOURLS_USER="example_username"`
+
+#### `YOURLS_PASS`
+
+**Required.**  
+YOURLS instance password.
+
+Example: `YOURLS_PASS="example_password"`
+
+#### `YOURLS_DB_HOST`, `YOURLS_DB_USER`, `YOURLS_DB_PASS`
+
+**Optional if linked `mysql` container.**
+
+Host, user (defaults to `root`) and password for the database.
+
+#### `YOURLS_DB_NAME`
+
+**Optional.**  
+Database name, defaults to `yourls`. The database must have been created before installing YOURLS.
+
+#### `YOURLS_DB_PREFIX`
+
+**Optional.**  
+Database tables prefix, defaults to `yourls_`. Only set this when you need to override the default table prefix.
+
+### Docker Secrets
+
+As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from Docker secrets stored in `/run/secrets/<secret_name>` files. For example:
+
+```console
+$ docker run --name some-yourls -e YOURLS_DB_PASS_FILE=/run/secrets/mysql-root ... -d yourls:tag
+```
+
+Currently, this is supported for `YOURLS_DB_HOST`, `YOURLS_DB_USER`, `YOURLS_DB_PASS`, `YOURLS_DB_NAME`, `YOURLS_DB_PREFIX`, `YOURLS_SITE`, `YOURLS_USER`, and `YOURLS_PASS`.
+
+### ... via [`docker-compose`](https://github.com/docker/compose) or [`docker stack deploy`](https://docs.docker.com/engine/reference/commandline/stack_deploy/)
+
+Example `docker-compose.yml` for `yourls`:
+
+```yaml
+version: '3.1'
+services:
+  yourls:
+    image: yourls
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      YOURLS_DB_PASS: example
+      YOURLS_SITE: https://example.com
+      YOURLS_USER: example_username
+      YOURLS_PASS: example_password
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: yourls
+```
+
+[![Try in PWD](https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/docker-library/docs/6dba1507190ff91149046ce4bcbac43529d76bd4/yourls/stack.yml)
+
+Run `docker stack deploy -c stack.yml yourls` (or `docker-compose -f stack.yml up`), wait for it to initialize completely, and visit `http://swarm-ip:8080/admin/`, `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
+
+### Adding additional libraries / extensions
+
+This image does not provide any additional PHP extensions or other libraries, even if they are required by popular plugins. There are an infinite number of possible plugins, and they potentially require any extension PHP supports. Including every PHP extension that exists would dramatically increase the image size.
+
+If you need additional PHP extensions, you'll need to create your own image `FROM` this one. The [documentation of the `php` image](https://github.com/docker-library/docs/blob/master/php/README.md#how-to-install-more-php-extensions) explains how to compile additional extensions.
+
+## Image Variants
+
+The `yourls` images come in many flavors, each designed for a specific use case.
+
+### `yourls:<version>`
+
+This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as the base to build other images off of.
+
+### `yourls:<version>-fpm`
+
+This variant contains PHP-FPM, which is a FastCGI implementation for PHP. See [the PHP-FPM website](https://php-fpm.org/) for more information about PHP-FPM.
+
+In order to use this image variant, some kind of reverse proxy (such as NGINX, Apache, or other tool which speaks the FastCGI protocol) will be required.
+
+Some potentially helpful resources:
+
+-	[PHP-FPM.org](https://php-fpm.org/)
+-	[simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
+-	[very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
+-	[Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
+-	[Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
+
+**WARNING:** the FastCGI protocol is inherently trusting, and thus *extremely* insecure to expose outside of a private container network -- unless you know *exactly* what you are doing (and are willing to accept the extreme risk), do not use Docker's `--publish` (`-p`) flag with this image variant.
+
+## Docker Hub
+
+[![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls)
+[![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls)
 
 ### How to change README page visible on Docker Hub?
 
@@ -32,11 +175,7 @@ Check [the "library/yourls" manifest file in the docker-library/official-images 
 
 For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 
-### Is there an alternative Container Registry?
-
-Yes, YOURLS images are also [hosted on the GitHub Container Registry](https://github.com/YOURLS/YOURLS/pkgs/container/yourls).
-
----
+### What are the architecures available on the Docker Hub?
 
 | Build | Status | Badges | (per-arch) |
 |:-:|:-:|:-:|:-:|
@@ -44,4 +183,6 @@ Yes, YOURLS images are also [hosted on the GitHub Container Registry](https://gi
 | [![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls/) | [![i386 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls.svg?label=i386)](https://doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls/) | [![mips64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls.svg?label=mips64le)](https://doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls/) | [![ppc64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls.svg?label=ppc64le)](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls/) |
 | [![s390x build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls.svg?label=s390x)](https://doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls/) | [![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls/) |
 
-<!-- THIS FILE IS GENERATED BY https://github.com/docker-library/docs/blob/master/generate-repo-stub-readme.sh -->
+## License
+
+This project is licensed under [MIT License](LICENSE).

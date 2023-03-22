@@ -2,7 +2,7 @@
 
 > Official [container](https://opencontainers.org/) images for [YOURLS](https://yourls.org).
 
-[![Build Status](https://github.com/YOURLS/docker/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/docker/actions/workflows/ci.yml)
+[![Build Status](https://github.com/YOURLS/images/actions/workflows/ci.yml/badge.svg)](https://github.com/YOURLS/images/actions/workflows/ci.yml)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/yourls)](https://artifacthub.io/packages/search?repo=yourls-images)
 [![Listed in Awesome YOURLS](https://img.shields.io/badge/Awesome-YOURLS-C5A3BE)](https://github.com/YOURLS/awesome-yourls)
 

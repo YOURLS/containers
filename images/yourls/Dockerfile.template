@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.documentation="https://yourls.org/"
 LABEL org.opencontainers.image.vendor="YOURLS Org"
 LABEL org.opencontainers.image.authors="YOURLS"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/YOURLS/YOURLS/master/README.md"
+LABEL io.artifacthub.package.readme-url="https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md"
 
 # install the PHP extensions we need
 RUN set -eux; \

@@ -15,4 +15,4 @@ jobs:
     name: Code Base
     uses: YOURLS/.github/.github/workflows/lint.yml@main
     with:
-      exclude: Dockerfile.template
+      exclude: images/yourls/Dockerfile.template

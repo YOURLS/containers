@@ -20,7 +20,7 @@ This is the Git repository of the official container images for YOURLS.
 ### Start a YOURLS instance
 
 ```console
-$ docker run --name some-yourls --link some-mysql:mysql \
+docker run --name some-yourls --link some-mysql:mysql \
     -e YOURLS_SITE="https://example.com" \
     -e YOURLS_USER="example_username" \
     -e YOURLS_PASS="example_password" \
@@ -32,7 +32,7 @@ The YOURLS instance accepts a number of environment variables for configuration,
 If you'd like to use an external database instead of a linked `mysql` container, specify the hostname and port with `YOURLS_DB_HOST` along with the password in `YOURLS_DB_PASS` and the username in `YOURLS_DB_USER` (if it is something other than `root`):
 
 ```console
-$ docker run --name some-yourlss -e YOURLS_DB_HOST=10.1.2.3:3306 \
+docker run --name some-yourlss -e YOURLS_DB_HOST=10.1.2.3:3306 \
     -e YOURLS_DB_USER=... -e YOURLS_DB_PASS=... -d yourls
 ```
 
@@ -41,7 +41,7 @@ $ docker run --name some-yourlss -e YOURLS_DB_HOST=10.1.2.3:3306 \
 If you'd like to be able to access the instance from the host without the container's IP, standard port mappings can be used:
 
 ```console
-$ docker run --name some-yourls --link some-mysql:mysql -p 8080:80 -d yourls
+docker run --name some-yourls --link some-mysql:mysql -p 8080:80 -d yourls
 ```
 
 Then, access it via `http://localhost:8080/admin/` or `http://<host-ip>:8080/admin/` in a browser.
@@ -50,7 +50,7 @@ Then, access it via `http://localhost:8080/admin/` or `http://<host-ip>:8080/adm
 
 ### Environment Variables
 
-When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command line.  
+When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command-line.  
 The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/#Config).  
 A few notable/important examples for using this Docker image include the following.
 
@@ -148,27 +148,30 @@ This image contains Debian's Apache httpd in conjunction with PHP (as `mod_php`)
 
 ### `yourls:<version>-fpm`
 
-This variant contains PHP-FPM, which is a FastCGI implementation for PHP. See [the PHP-FPM website](https://php-fpm.org/) for more information about PHP-FPM.
+This variant contains PHP-FPM, which is a FastCGI implementation for PHP. See [the PHP-FPM site](https://php-fpm.org/) for more information about PHP-FPM.
 
 In order to use this image variant, some kind of reverse proxy (such as NGINX, Apache, or other tool which speaks the FastCGI protocol) will be required.
 
 Some potentially helpful resources:
 
--	[PHP-FPM.org](https://php-fpm.org/)
--	[simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
--	[very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
--	[Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
--	[Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
+- [PHP-FPM.org](https://php-fpm.org/)
+- [simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
+- [very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
+- [Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
+- [Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
 
-> **Warning** The FastCGI protocol is inherently trusting, and thus *extremely* insecure to expose outside of a private container network -- unless you know *exactly* what you are doing (and are willing to accept the extreme risk), do not use Docker's `--publish` (`-p`) flag with this image variant.
+> **Warning** The FastCGI protocol is inherently trusting, and thus _extremely_ insecure to expose outside of a private container network -- unless you know _exactly_ what you are doing (and are willing to accept the extreme risk), do not use Docker's `--publish` (`-p`) flag with this image variant.
 
 ### `yourls:<version>-alpine`
 
 This image is based on the popular [Alpine Linux project](https://alpinelinux.org), available in [the `alpine` official image](https://hub.docker.com/_/alpine). Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
 
-This variant is useful when final image size being as small as possible is your primary concern. The main caveat to note is that it does use [musl libc](https://musl.libc.org) instead of [glibc and friends](https://www.etalabs.net/compare_libcs.html), so software will often run into issues depending on the depth of their libc requirements/assumptions. See [this Hacker News comment thread](https://news.ycombinator.com/item?id=10782897) for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
+This variant is useful when final image size being as small as possible is your primary concern.
+The main caveat to note is that it does use [musl libc](https://musl.libc.org) instead of [glibc and friends](https://www.etalabs.net/compare_libcs.html), so software will often run into issues depending on the depth of their libc requirements/assumptions.
+See [this Hacker News comment thread](https://news.ycombinator.com/item?id=10782897) for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
 
-To minimize image size, it's uncommon for additional related tools (such as `git` or `bash`) to be included in Alpine-based images. Using this image as a base, add the things you need in your own Dockerfile (see the [`alpine` image description](https://hub.docker.com/_/alpine/) for examples of how to install packages if you are unfamiliar).
+To minimize image size, it's uncommon for additional related tools (such as `git` or `bash`) to be included in Alpine-based images.
+Using this image as a base, add the things you need in your own Dockerfile (see the [`alpine` image description](https://hub.docker.com/_/alpine/) for examples of how to install packages if you are unfamiliar).
 
 ## Docker Hub reference
 

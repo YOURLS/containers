@@ -158,6 +158,8 @@ jobs:
             org.opencontainers.image.authors=YOURLS
             org.opencontainers.image.licenses=MIT
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/README.md
+            io.artifacthub.package.alternative-locations=docker.io/library/yourls
+            io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha,scope=${{ matrix.variant }}
           # cache-to: type=gha,scope=${{ matrix.variant }},mode=max

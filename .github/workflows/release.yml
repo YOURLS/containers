@@ -153,7 +153,7 @@ jobs:
             org.opencontainers.image.title=YOURLS
             org.opencontainers.image.description=Your Own URL Shortener
             org.opencontainers.image.url=https://yourls.org
-            org.opencontainers.image.documentation="https://yourls.org
+            org.opencontainers.image.documentation=https://yourls.org
             org.opencontainers.image.vendor=YOURLS Org
             org.opencontainers.image.authors=YOURLS
             org.opencontainers.image.licenses=MIT

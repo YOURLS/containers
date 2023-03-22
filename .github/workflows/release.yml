@@ -161,7 +161,8 @@ jobs:
             io.artifacthub.package.alternative-locations=docker.io/library/yourls
             io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           outputs: >-
-            registry,
+            type=image,
+            name=target,
             annotation-org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }},
             annotation-org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }},
             annotation-org.opencontainers.image.source=https://github.com/${{ secrets.image }},

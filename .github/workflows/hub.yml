@@ -47,7 +47,7 @@ jobs:
           path: library
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PAT_OI_PR }}
           push-to-fork: YOURLS/docker-library-official-images

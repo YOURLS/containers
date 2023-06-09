@@ -1,4 +1,4 @@
-FROM php:8.2.6-%%VARIANT%%
+FROM php:8.2.7-%%VARIANT%%
 
 # install the PHP extensions we need
 RUN set -eux; \

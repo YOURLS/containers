@@ -134,4 +134,4 @@ jobs:
     with:
       version: ${{ needs.metadata.outputs.version }}
     secrets:
-      image: ${{ secrets.REGISTRY_IMAGE }}
+      image: ${{ vars.REGISTRY_IMAGE }}

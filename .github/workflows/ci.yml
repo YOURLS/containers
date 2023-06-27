@@ -133,5 +133,3 @@ jobs:
       id-token: write
     with:
       version: ${{ needs.metadata.outputs.version }}
-    secrets:
-      image: ${{ vars.REGISTRY_IMAGE }}

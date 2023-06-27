@@ -72,13 +72,6 @@ jobs:
             platform: linux/arm/v6
           # - variant: fpm-alpine
           #   platform: linux/riscv64
-        # include:
-        #   - variant: apache
-        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
-        #   - variant: fpm
-        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
-        #   - variant: fpm-alpine
-        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
     steps:
       - name: Retrieve context files
         uses: actions/download-artifact@v3
@@ -157,7 +150,6 @@ jobs:
           outputs: >-
             type=image,
             name=ghcr.io/${{ vars.REGISTRY_IMAGE }},
-            push-by-digest=true,
             name-canonical=true,
             annotation-index.org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }},
             annotation-index.org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }},

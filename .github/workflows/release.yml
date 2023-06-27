@@ -8,7 +8,7 @@ on:
       artifact:
         required: false
         default: true
-        type: string
+        type: boolean
         description: True if analysis must be run against a built artifact
       version:
         required: true
@@ -56,33 +56,33 @@ jobs:
           - apache
           - fpm
           - fpm-alpine
-        # platform:
-        #   - linux/amd64
-        #   - linux/arm64
-        #   - linux/arm/v7
-        #   # - linux/arm/v6
-        #   - linux/arm/v5
-        #   - linux/386
-        #   - linux/mips64le
-        #   - linux/ppc64le
-        #   - linux/s390x
-        # exclude:
-        #   - variant: fpm-alpine
-        #     platform: linux/arm/v5
-        #   - variant: fpm-alpine
-        #     platform: linux/mips64le
-        # include:
-        #   - variant: fpm-alpine
-        #     platform: linux/arm/v6
-        #   - variant: fpm-alpine
-        #     platform: linux/riscv64
-        include:
-          - variant: apache
-            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
-          - variant: fpm
-            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
+        platform:
+          - linux/amd64
+          - linux/arm64
+          - linux/arm/v7
+          # - linux/arm/v6
+          - linux/arm/v5
+          - linux/386
+          - linux/mips64le
+          - linux/ppc64le
+          - linux/s390x
+        exclude:
           - variant: fpm-alpine
-            platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
+            platform: linux/arm/v5
+          - variant: fpm-alpine
+            platform: linux/mips64le
+        include:
+          - variant: fpm-alpine
+            platform: linux/arm/v6
+          # - variant: fpm-alpine
+          #   platform: linux/riscv64
+        # include:
+        #   - variant: apache
+        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
+        #   - variant: fpm
+        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v5,linux/386,linux/mips64le,linux/ppc64le,linux/s390x
+        #   - variant: fpm-alpine
+        #     platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
     steps:
       - name: Retrieve context files
         uses: actions/download-artifact@v3
@@ -109,14 +109,12 @@ jobs:
 
       - name: Retrieve image artifact
         uses: actions/download-artifact@v3
-        if: inputs.artifact
-        # if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
+        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Load artifact image
-        if: inputs.artifact
-        # if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
+        if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         run: docker load -i container-image.tar
 
       - name: Docker meta
@@ -162,7 +160,9 @@ jobs:
             io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           outputs: >-
             type=image,
-            name=target,
+            name=ghcr.io/${{ secrets.image }},
+            push-by-digest=true,
+            name-canonical=true,
             annotation-index.org.opencontainers.image.created=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }},
             annotation-index.org.opencontainers.image.revision=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }},
             annotation-index.org.opencontainers.image.source=https://github.com/${{ secrets.image }},
@@ -186,3 +186,54 @@ jobs:
         run: cosign sign --yes ${IMAGE}
         env:
           IMAGE: ghcr.io/${{ secrets.image }}@${{ steps.build.outputs.digest }}
+
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v3
+        with:
+          name: digests
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - images
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v3
+        with:
+          name: digests
+          path: /tmp/digests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ secrets.image }}
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v2.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $(printf 'ghcr.io/${{ secrets.image }}@sha256:%s ' *)
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect ghcr.io/${{ secrets.image }}:${{ steps.meta.outputs.version }}

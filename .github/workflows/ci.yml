@@ -15,7 +15,7 @@ jobs:
     outputs:
       version: ${{ steps.version-step.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Extract current version
         id: version-step
@@ -25,7 +25,7 @@ jobs:
     name: Files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Generate variants
         run: ./images/yourls/bin/generate-variants.sh dist/
@@ -91,7 +91,7 @@ jobs:
       matrix:
         variant: [fpm-alpine, fpm, apache]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: docker-library/official-images
 

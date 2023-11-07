@@ -88,7 +88,7 @@ jobs:
       - run: chmod +x ./*/container-entrypoint.sh
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v3.1.2
+        uses: sigstore/cosign-installer@v3.2.0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3

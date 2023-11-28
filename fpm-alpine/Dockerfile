@@ -1,4 +1,4 @@
-FROM php:8.2.12-fpm-alpine
+FROM php:8.3.0-fpm-alpine
 
 # install the PHP extensions we need
 RUN set -eux; \

@@ -24,7 +24,7 @@ jobs:
       contents: write
     steps:
       - name: Retrieve context files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: context-files
 
@@ -81,7 +81,7 @@ jobs:
             platform: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386,linux/ppc64le,linux/s390x
     steps:
       - name: Retrieve context files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: context-files
 
@@ -104,7 +104,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Retrieve image artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         if: inputs.artifact
         # if: ${{ inputs.artifact && matrix.platform == 'linux/amd64' }}
         with:
@@ -212,7 +212,7 @@ jobs:
   #         - fpm-alpine
   #   steps:
   #     - name: Download digests
-  #       uses: actions/download-artifact@v3
+  #       uses: actions/download-artifact@v4
   #       with:
   #         name: digests
   #         path: /tmp/digests

@@ -86,6 +86,16 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 			# could be on a filesystem that doesn't allow chown (like some NFS setups)
 			chown "$user:$group" user/config.php || true
 		fi
+
+        # ability to use custom script with helm chart
+        if [[ -d "/docker-entrypoint-init.d" ]]; then
+            read -r -a init_scripts <<< "$(find "/docker-entrypoint-init.d" -type f -print0 | sort -z | xargs -0)"
+            if [[ "${#init_scripts[@]}" -gt 0 ]]; then
+                for init_script in "${init_scripts[@]}"; do
+                    "$init_script"
+                done
+            fi
+        fi
 	fi
 fi
 

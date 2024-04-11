@@ -1,4 +1,4 @@
-FROM php:8.3.4-fpm
+FROM php:8.3.6-fpm
 
 # install the PHP extensions we need
 RUN set -eux; \

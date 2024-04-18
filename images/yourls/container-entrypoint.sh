@@ -101,7 +101,7 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 			*.php)
 				php -f "$file"
 				;;
-			*) 
+			*)
 				echo >&2 "... ignoring $file"
 				;;
 			esac

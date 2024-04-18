@@ -23,6 +23,15 @@
         "FROM (?<depName>.*?):(?<currentValue>\\d+(?:\\.\\d+)*)-"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "(^|/|\\.)php-version$"
+      ],
+      "matchStrings": [
+        "(?<depName>.*?):(?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "github-actions": {

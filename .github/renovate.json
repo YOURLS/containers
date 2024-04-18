@@ -29,7 +29,7 @@
         "(^|/|\\.)php-version$"
       ],
       "matchStrings": [
-        "(?<depName>.*?):(?<currentValue>.*)"
+        "(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)"
       ],
       "datasourceTemplate": "docker"
     }

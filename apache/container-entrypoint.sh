@@ -87,15 +87,25 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 			chown "$user:$group" user/config.php || true
 		fi
 
-        # ability to use custom script with helm chart
-        if [[ -d "/docker-entrypoint-init.d" ]]; then
-            read -r -a init_scripts <<< "$(find "/docker-entrypoint-init.d" -type f -print0 | sort -z | xargs -0)"
-            if [[ "${#init_scripts[@]}" -gt 0 ]]; then
-                for init_script in "${init_scripts[@]}"; do
-                    "$init_script"
-                done
-            fi
-        fi
+		# ability to use custom script
+		for file in /docker-entrypoint-init.d/*; do
+			echo >&2 "Running custom script $file"
+			case "$file" in
+			*.sh)
+				if [ -x "$file" ]; then
+					"$file" || exit 1
+				else
+					echo >&2 "... ignoring non-executable $file"
+				fi
+				;;
+			*.php)
+				php -f "$file"
+				;;
+			*)
+				echo >&2 "... ignoring $file"
+				;;
+			esac
+		done
 	fi
 fi
 

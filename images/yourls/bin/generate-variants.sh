@@ -8,7 +8,7 @@ declare -A cmd=(
 )
 
 declare -A extras=(
-	[apache]='RUN a2enmod rewrite expires'
+	[apache]='RUN a2enmod rewrite expires;\n\nRUN sed -i --follow-symlinks '\''s\/ServerSignature On\/ServerSignature Off\/'\'' \/etc\/apache2\/conf-enabled\/security.conf; \\\n    sed -i --follow-symlinks '\''s\/ServerTokens OS\/ServerTokens Prod\/'\'' \/etc\/apache2\/conf-enabled\/security.conf;'
 	[fpm]=''
 	[fpm-alpine]='RUN apk add --no-cache bash'
 )

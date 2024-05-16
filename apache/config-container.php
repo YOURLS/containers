@@ -79,6 +79,9 @@ $yourls_user_passwords = [
  ** Default is false for live site. Enable when coding or before submitting a new issue */
 define( 'YOURLS_DEBUG', filter_var(getenv('YOURLS_DEBUG'), FILTER_VALIDATE_BOOLEAN) );
 
+/** Skip version check. */
+define( 'YOURLS_NO_VERSION_CHECK', getenv('YOURLS_NO_VERSION_CHECK') === false ?: filter_var(getenv('YOURLS_NO_VERSION_CHECK'), FILTER_VALIDATE_BOOLEAN) );
+
 /*
 ** URL Shortening settings
 */

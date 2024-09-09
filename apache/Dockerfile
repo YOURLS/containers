@@ -35,6 +35,6 @@ RUN set -eux; \
 
 COPY --chown=www-data:www-data config-container.php /usr/src/yourls/user/
 COPY container-entrypoint.sh /usr/local/bin/
-COPY .htaccess /usr/src/yourls/
+COPY yourls.vhost /usr/src/yourls/.htaccess
 ENTRYPOINT ["container-entrypoint.sh"]
 CMD ["apache2-foreground"]

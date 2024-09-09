@@ -14,7 +14,7 @@ declare -A extras=(
 )
 
 declare -A files=(
-	[apache]='COPY .htaccess \/usr\/src\/yourls\/'
+	[apache]='COPY yourls.vhost \/usr\/src\/yourls\/.htaccess'
 	[fpm]=''
 	[fpm-alpine]=''
 )
@@ -44,6 +44,6 @@ for variant in apache fpm fpm-alpine; do
 	cp -a config-container.php "$baseFolder$variant/config-container.php"
 
 	if [ "$variant" = 'apache' ]; then
-		cp -a yourls.vhost "$baseFolder$variant/.htaccess"
+		cp -a yourls.vhost "$baseFolder$variant/yourls.vhost"
 	fi
 done

@@ -45,6 +45,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      attestations: write
     strategy:
       fail-fast: false
       matrix:
@@ -180,9 +181,11 @@ jobs:
           push: true
 
       - name: Sign the image with GitHub OIDC
-        run: cosign sign --yes "${IMAGE}"
-        env:
-          IMAGE: ghcr.io/${{ vars.REGISTRY_IMAGE }}@${{ steps.build.outputs.digest }}
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/${{ vars.REGISTRY_IMAGE }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
 
       # - name: Export digest
       #   run: |

@@ -10,7 +10,7 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["!major"],
       "automerge": true
     }
   ],

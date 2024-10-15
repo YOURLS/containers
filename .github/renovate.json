@@ -1,18 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "mergeConfidence:all-badges",
-    "config:recommended",
-    ":disableDependencyDashboard",
-    "regexManagers:dockerfileVersions"
-  ],
-  "labels": ["dependencies"],
-  "rangeStrategy": "bump",
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["!major"],
-      "automerge": true
-    }
+    "local>YOURLS/.github:renovate-config",
+    "customManagers:dockerfileVersions"
   ],
   "customManagers": [
     {
@@ -36,8 +26,5 @@
       ],
       "datasourceTemplate": "docker"
     }
-  ],
-  "github-actions": {
-    "enabled": false
-  }
+  ]
 }

@@ -26,5 +26,12 @@
       ],
       "datasourceTemplate": "docker"
     }
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": ["php"],
+      "matchUpdateTypes": ["!major", "!minor"],
+      "automerge": true
+    }
   ]
 }

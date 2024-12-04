@@ -178,7 +178,7 @@ jobs:
           push: true
 
       - name: Sign the image with GitHub OIDC
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-name: ghcr.io/${{ vars.REGISTRY_IMAGE }}
           subject-digest: ${{ steps.build.outputs.digest }}

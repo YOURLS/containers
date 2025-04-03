@@ -17,7 +17,7 @@ RUN { \
 %%VARIANT_EXTRAS%%
 
 # renovate: datasource=github-releases depName=YOURLS/YOURLS versioning=composer
-ARG YOURLS_VERSION="1.9.2"
+ARG YOURLS_VERSION="1.10.0"
 ARG YOURLS_SHA256="%%SHA256%%"
 
 ENV YOURLS_VERSION=$YOURLS_VERSION

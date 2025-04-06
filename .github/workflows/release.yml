@@ -173,7 +173,7 @@ jobs:
             annotation-index.io.artifacthub.package.alternative-locations=docker.io/library/yourls,
             annotation-index.io.artifacthub.package.logo-url=https://yourls.org/images/yourls-logo.svg
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha,scope=${{ matrix.variant }},ignore-error=true
+          # cache-from: type=gha,scope=${{ matrix.variant }},ignore-error=true
           # cache-to: type=gha,scope=${{ matrix.variant }},mode=max
           push: true
 

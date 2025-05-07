@@ -7,7 +7,10 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["(^|/|\\.)Dockerfile$", "(^|/)Dockerfile\\.[^/]*$"],
+      "managerFilePatterns": [
+        "/(^|/|\\.)Dockerfile$/",
+        "/(^|/)Dockerfile\\.[^/]*$/"
+      ],
       "matchStrings": [
         "FROM (?<depName>.*?):(?<currentValue>\\d+(?:\\.\\d+)*)-"
       ],
@@ -15,7 +18,9 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["(^|/|\\.)php-version$"],
+      "managerFilePatterns": [
+        "/(^|/|\\.)php-version$/"
+      ],
       "matchStrings": [
         "(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:\\w+)"
       ],
@@ -24,8 +29,13 @@
   ],
   "packageRules": [
     {
-      "matchDepNames": ["php"],
-      "matchUpdateTypes": ["major", "minor"],
+      "matchDepNames": [
+        "php"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
       "automerge": false
     }
   ]

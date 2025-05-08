@@ -18,9 +18,7 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/(^|/|\\.)php-version$/"
-      ],
+      "managerFilePatterns": ["/(^|/|\\.)php-version$/"],
       "matchStrings": [
         "(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:\\w+)"
       ],
@@ -29,13 +27,8 @@
   ],
   "packageRules": [
     {
-      "matchDepNames": [
-        "php"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor"
-      ],
+      "matchDepNames": ["php"],
+      "matchUpdateTypes": ["major", "minor"],
       "automerge": false
     }
   ]

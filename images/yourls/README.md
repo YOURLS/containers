@@ -153,6 +153,34 @@ services:
 
 Run `docker compose -f stack.yml up`, wait for it to initialize completely, and visit `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
 
+If you wish to use external storage rather than Docker Volumes for storage of plugins and configuration, you can use the following:
+
+```yaml
+version: '3.1'
+services:
+  yourls:
+    image: yourls
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./../data/user:/var/www/html/user
+    environment:
+      YOURLS_DB_PASS: example
+      YOURLS_SITE: https://example.com
+      YOURLS_USER: example_username
+      YOURLS_PASS: example_password
+  mysql:
+    image: mysql
+    restart: always
+    volumes:
+      - ./../data/db/mysql:/var/lib/mysql
+      - ./../data/db/conf:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: yourls
+```
+
 ## Adding additional libraries / extensions
 
 This image does not provide any additional PHP extensions or other libraries, even if they are required by popular plugins. There are an infinite number of possible plugins, and they potentially require any extension PHP supports. Including every PHP extension that exists would dramatically increase the image size.

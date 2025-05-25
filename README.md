@@ -10,8 +10,8 @@
 
 This is the Git repository of the official container images for YOURLS.
 
-| Image | Docker Hub | Version |
-|:-----:|:----------:|:-------:|
+|          Image          |              Docker Hub               |                                                                        Version                                                                        |
+| :---------------------: | :-----------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
 | `ghcr.io/yourls/yourls` | `docker.io/library/yourls` (`yourls`) | [![Image Version](https://img.shields.io/docker/v/_/yourls?label=yourls&sort=semver)](https://artifacthub.io/packages/container/yourls-images/yourls) |
 
 ## License

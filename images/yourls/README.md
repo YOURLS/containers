@@ -9,15 +9,15 @@ This image contains the [YOURLS](https://yourls.org) app to be used as a contain
 It includes the [PHP engine](https://hub.docker.com/_/php) which is required for
 bootstrapping a running deployment for the requirements of the YOURLS application.
 
-| Registry | Image |
-|:--------:|:-----:|
-| Docker Hub ["Official Image"](https://docs.docker.com/docker-hub/official_repos/) | [`docker.io/library/yourls` (`yourls`)](https://hub.docker.com/_/yourls) |
-| GitHub Container Registry | [`ghcr.io/yourls/yourls`](https://github.com/YOURLS/YOURLS/pkgs/container/yourls) |
+|                                     Registry                                      |                                       Image                                       |
+| :-------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: |
+| Docker Hub ["Official Image"](https://docs.docker.com/docker-hub/official_repos/) |     [`docker.io/library/yourls` (`yourls`)](https://hub.docker.com/_/yourls)      |
+|                             GitHub Container Registry                             | [`ghcr.io/yourls/yourls`](https://github.com/YOURLS/YOURLS/pkgs/container/yourls) |
 
 ## Prerequisites
 
-* OCI-compliant engine
-* MySQL-compatible container or host ready
+- OCI-compliant engine
+- MySQL-compatible container or host ready
 
 ## Usage
 
@@ -45,7 +45,7 @@ docker run \
     --env YOURLS_DB_HOST=10.1.2.3:3306 \
     --env YOURLS_SITE="https://example.com" \
     --env YOURLS_USER="example_username" \
-    --env YOURLS_PASS="example_password" \ 
+    --env YOURLS_PASS="example_password" \
     yourls
 ```
 
@@ -58,7 +58,7 @@ docker run \
     --name some-yourls \
     --detach \
     --link some-mysql:mysql \
-    --publish 8080:80 \
+    --publish 8080:8080 \
     yourls
 ```
 
@@ -69,27 +69,27 @@ Then, access it via `http://localhost:8080/admin/` or `http://<host-ip>:8080/adm
 
 ## Environment Variables
 
-When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command-line.  
-The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/#Config).  
+When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command-line.
+The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/#Config).
 A few notable/important examples for using this Docker image include the following.
 
 ### `YOURLS_SITE`
 
-**Required.**  
+**Required.**
 YOURLS instance URL, no trailing slash, lowercase.
 
 Example: `YOURLS_SITE="https://example.com"`
 
 ### `YOURLS_USER`
 
-**Required.**  
+**Required.**
 YOURLS instance username.
 
 Example: `YOURLS_USER="example_username"`
 
 ### `YOURLS_PASS`
 
-**Required.**  
+**Required.**
 YOURLS instance password.
 
 Example: `YOURLS_PASS="example_password"`
@@ -102,12 +102,12 @@ Host, user (defaults to `root`) and password for the database.
 
 ### `YOURLS_DB_NAME`
 
-**Optional.**  
+**Optional.**
 Database name, defaults to `yourls`. The database must have been created before installing YOURLS.
 
 ### `YOURLS_DB_PREFIX`
 
-**Optional.**  
+**Optional.**
 Database tables prefix, defaults to `yourls_`. Only set this when you need to override the default table prefix.
 
 ## Docker Secrets
@@ -129,13 +129,14 @@ Currently, this is supported for `YOURLS_DB_HOST`, `YOURLS_DB_USER`, `YOURLS_DB_
 Example `docker-compose.yml` for `yourls`:
 
 ```yaml
-version: '3.1'
+name: yourls
+
 services:
   yourls:
     image: yourls
     restart: always
     ports:
-      - 8080:80
+      - 8080:8080
     environment:
       YOURLS_DB_PASS: example
       YOURLS_SITE: https://example.com
@@ -202,7 +203,7 @@ Using this image as a base, add the things you need in your own Dockerfile (see 
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/_/yourls.svg)](https://hub.docker.com/_/yourls)
 [![Docker Hub Stars](https://img.shields.io/docker/stars/_/yourls.svg)](https://hub.docker.com/_/yourls)
 
-### How to change README page visible on Docker Hub?
+### How to change documentation page displayed on Docker Hub?
 
 The [full description from Docker Hub](https://hub.docker.com/_/yourls) is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/yourls](https://github.com/docker-library/docs/tree/master/yourls).
 
@@ -214,11 +215,11 @@ For more information about the official images process, see the [docker-library/
 
 ### What are the architectures available on the Docker Hub?
 
-| Build | Status | Badges | (per-arch) |
-|:-:|:-:|:-:|:-:|
-| [![amd64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/amd64/job/yourls.svg?label=amd64)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/yourls/) | [![arm32v5 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/yourls.svg?label=arm32v5)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/yourls/) | [![arm32v6 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v6/job/yourls.svg?label=arm32v6)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v6/job/yourls/) | [![arm32v7 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/yourls.svg?label=arm32v7)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/yourls/) |
-| [![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls/) | [![i386 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls.svg?label=i386)](https://doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls/) | [![mips64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls.svg?label=mips64le)](https://doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls/) | [![ppc64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls.svg?label=ppc64le)](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls/) |
-| [![s390x build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls.svg?label=s390x)](https://doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls/) | [![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls/) |
+|                                                                                                             Build                                                                                                             |                                                                                                              Status                                                                                                               |                                                                                                              Badges                                                                                                               |                                                                                                          (per-arch)                                                                                                           |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|     [![amd64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/amd64/job/yourls.svg?label=amd64)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/yourls/)     |   [![arm32v5 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/yourls.svg?label=arm32v5)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/yourls/)   |   [![arm32v6 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v6/job/yourls.svg?label=arm32v6)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v6/job/yourls/)   | [![arm32v7 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/yourls.svg?label=arm32v7)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/yourls/) |
+| [![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/yourls/) |         [![i386 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls.svg?label=i386)](https://doi-janky.infosiftr.net/job/multiarch/job/i386/job/yourls/)         | [![mips64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls.svg?label=mips64le)](https://doi-janky.infosiftr.net/job/multiarch/job/mips64le/job/yourls/) | [![ppc64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls.svg?label=ppc64le)](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/yourls/) |
+|     [![s390x build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls.svg?label=s390x)](https://doi-janky.infosiftr.net/job/multiarch/job/s390x/job/yourls/)     | [![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/yourls/) |                                                                                                                                                                                                                                   |                                                                                                                                                                                                                               |
 
 ## License
 

@@ -1,3 +1,4 @@
 * text=auto eol=lf
 
 Dockerfile.template linguist-language=Dockerfile
+*.conf linguist-language=ApacheConf

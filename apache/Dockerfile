@@ -35,7 +35,7 @@ RUN set -eux; \
 
 COPY --chown=www-data:www-data config-container.php /usr/src/yourls/user/
 COPY container-entrypoint.sh /usr/local/bin/
-COPY files/vhost.conf $APACHE_CONFDIR/sites-available/000-default.conf
+COPY files/vhost-https.conf $APACHE_CONFDIR/sites-available/default-ssl.conf
 COPY files/ports.conf $APACHE_CONFDIR/ports.conf
 
 EXPOSE 8080/tcp

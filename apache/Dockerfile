@@ -35,6 +35,11 @@ RUN set -eux; \
 
 COPY --chown=www-data:www-data config-container.php /usr/src/yourls/user/
 COPY container-entrypoint.sh /usr/local/bin/
-COPY yourls.vhost /usr/src/yourls/.htaccess
+COPY files/vhost.conf $APACHE_CONFDIR/sites-available/000-default.conf
+COPY files/ports.conf $APACHE_CONFDIR/ports.conf
+
+EXPOSE 8080/tcp
+EXPOSE 8443/tcp
+
 ENTRYPOINT ["container-entrypoint.sh"]
 CMD ["apache2-foreground"]

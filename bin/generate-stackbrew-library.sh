@@ -12,7 +12,7 @@ getArches 'yourls'
 version=$(head -n 1 yourls_version)
 
 cat <<-EOH
-# this file is generated via https://github.com/YOURLS/images/blob/$(fileCommit "$self")/$self
+# this file is generated via https://github.com/YOURLS/containers/blob/$(fileCommit "$self")/$self
 
 Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)

@@ -16,7 +16,7 @@ cat <<-EOH
 
 Maintainers: YOURLS <yourls@yourls.org> (@YOURLS),
              Léo Colombaro <git@colombaro.fr> (@LeoColomb)
-GitRepo: https://github.com/YOURLS/images.git
+GitRepo: https://github.com/YOURLS/containers.git
 GitFetch: refs/heads/dist
 EOH
 

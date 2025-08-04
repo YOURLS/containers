@@ -27,7 +27,7 @@ bootstrapping a running deployment for the requirements of the YOURLS applicatio
 docker run \
     --name some-yourls \
     --detach \
-    --link some-mysql:mysql \
+    --network some-network \
     --env YOURLS_SITE="https://example.com" \
     --env YOURLS_USER="example_username" \
     --env YOURLS_PASS="example_password" \
@@ -36,7 +36,7 @@ docker run \
 
 The YOURLS instance accepts a number of environment variables for configuration, see [_Environment Variables_](#environment-variables) section below.
 
-If you'd like to use an external database instead of a linked `mysql` container, specify the hostname and port with `YOURLS_DB_HOST` along with the password in `YOURLS_DB_PASS` and the username in `YOURLS_DB_USER` (if it is something other than `root`):
+If you'd like to use an external database instead of a `mysql` container, specify the hostname and port with `YOURLS_DB_HOST` along with the password in `YOURLS_DB_PASS` and the username in `YOURLS_DB_USER` (if it is something other than `root`):
 
 ```bash
 docker run \
@@ -56,7 +56,7 @@ If you'd like to be able to access the instance from the host without the contai
 docker run \
     --name some-yourls \
     --detach \
-    --link some-mysql:mysql \
+    --network some-network \
     --publish 8080:8080 \
     yourls
 ```
@@ -125,7 +125,7 @@ Currently, this is supported for `YOURLS_DB_HOST`, `YOURLS_DB_USER`, `YOURLS_DB_
 
 ## Docker Compose
 
-Example `docker-compose.yml` for `yourls`:
+Example `compose.yaml` for `yourls`:
 
 ```yaml
 name: yourls
@@ -152,7 +152,7 @@ services:
       - db:/var/lib/mysql
 ```
 
-[![Try in PWD](https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/stack.yml)
+[![Try in PWD](https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/YOURLS/containers/main/images/yourls/stack.yml)
 
 Run `docker compose up`, wait for it to initialize completely, and visit `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
 
@@ -176,23 +176,21 @@ If you wish to provide additional content in an image for deploying in multiple 
 
 The `yourls` images come in many flavors, each designed for a specific use case.
 
-### `yourls:<version>`, `php:<version>-apache`
+### `yourls:<version>`, `yourls:<version>-apache`
 
 This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as the base to build other images off of.
 
-This image contains Debian's Apache httpd in conjunction with PHP (as `mod_php`) and uses `mpm_prefork` by default.
-
 ### `yourls:<version>-fpm`
 
-This variant contains PHP-FPM, which is a FastCGI implementation for PHP. See [the PHP-FPM site](https://php-fpm.org/) for more information about PHP-FPM.
+This variant contains [PHP's FastCGI Process Manager (FPM)](https://www.php.net/fpm), which is the recommended FastCGI implementation for PHP.
 
 In order to use this image variant, some kind of reverse proxy (such as NGINX, Apache, or other tool which speaks the FastCGI protocol) will be required.
 
 Some potentially helpful resources:
 
-- [PHP-FPM.org](https://php-fpm.org/)
-- [simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
-- [very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
+- [FPM's Official Configuration Reference](https://www.php.net/manual/en/install.fpm.configuration.php)
+- [Simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
+- [Very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
 - [Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
 - [Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
 

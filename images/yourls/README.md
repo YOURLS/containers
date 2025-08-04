@@ -42,10 +42,9 @@ If you'd like to use an external database instead of a linked `mysql` container,
 docker run \
     --name some-yourls \
     --detach \
-    --env YOURLS_DB_HOST=10.1.2.3:3306 \
-    --env YOURLS_SITE="https://example.com" \
-    --env YOURLS_USER="example_username" \
-    --env YOURLS_PASS="example_password" \
+    --env YOURLS_DB_HOST=... \
+    --env YOURLS_DB_USER=... \
+    --env YOURLS_DB_PASS=... \
     yourls
 ```
 
@@ -69,27 +68,27 @@ Then, access it via `http://localhost:8080/admin/` or `http://<host-ip>:8080/adm
 
 ## Environment Variables
 
-When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command-line.
-The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/#Config).
+When you start the `yourls` image, you can adjust the configuration of the YOURLS instance by passing one or more environment variables on the `docker run` command-line.  
+The YOURLS instance accepts [a number of environment variables for configuration](https://yourls.org/docs/guide/essentials/configuration).  
 A few notable/important examples for using this Docker image include the following.
 
 ### `YOURLS_SITE`
 
-**Required.**
+**Required.**  
 YOURLS instance URL, no trailing slash, lowercase.
 
 Example: `YOURLS_SITE="https://example.com"`
 
 ### `YOURLS_USER`
 
-**Required.**
+**Required.**  
 YOURLS instance username.
 
 Example: `YOURLS_USER="example_username"`
 
 ### `YOURLS_PASS`
 
-**Required.**
+**Required.**  
 YOURLS instance password.
 
 Example: `YOURLS_PASS="example_password"`
@@ -102,12 +101,12 @@ Host, user (defaults to `root`) and password for the database.
 
 ### `YOURLS_DB_NAME`
 
-**Optional.**
+**Optional.**  
 Database name, defaults to `yourls`. The database must have been created before installing YOURLS.
 
 ### `YOURLS_DB_PREFIX`
 
-**Optional.**
+**Optional.**  
 Database tables prefix, defaults to `yourls_`. Only set this when you need to override the default table prefix.
 
 ## Docker Secrets
@@ -130,11 +129,12 @@ Example `docker-compose.yml` for `yourls`:
 
 ```yaml
 name: yourls
-
 services:
   yourls:
     image: yourls
     restart: always
+    depends_on:
+      - mysql
     ports:
       - 8080:8080
     environment:
@@ -148,17 +148,29 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: yourls
+    volumes:
+      - db:/var/lib/mysql
 ```
 
 [![Try in PWD](https://github.com/play-with-docker/stacks/raw/cff22438cb4195ace27f9b15784bbb497047afa7/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/YOURLS/images/main/images/yourls/stack.yml)
 
-Run `docker compose -f stack.yml up`, wait for it to initialize completely, and visit `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
+Run `docker compose up`, wait for it to initialize completely, and visit `http://localhost:8080/admin/`, or `http://<host-ip>:8080/admin/` (as appropriate).
 
 ## Adding additional libraries / extensions
 
 This image does not provide any additional PHP extensions or other libraries, even if they are required by popular plugins. There are an infinite number of possible plugins, and they potentially require any extension PHP supports. Including every PHP extension that exists would dramatically increase the image size.
 
 If you need additional PHP extensions, you'll need to create your own image `FROM` this one. The [documentation of the `php` image](https://github.com/docker-library/docs/blob/master/php/README.md#how-to-install-more-php-extensions) explains how to compile additional extensions.
+
+## Include persistent user-content
+
+Mount the volume containing your plugins, pages or languages to the proper directory; and then apply them through the "admin" UI. Ensure read/write/execute permissions are in place for the user:
+
+-	Plugins go in a subdirectory in `/var/www/html/user/plugins/`
+-	Pages go in a subdirectory in `/var/www/html/user/pages/`
+-	Languages go in a subdirectory in `/var/www/html/user/languages/`
+
+If you wish to provide additional content in an image for deploying in multiple installations, place it in the same directories under `/usr/src/yourls/` instead (which gets copied to `/var/www/html/` on the container's initial startup).
 
 ## Image Variants
 

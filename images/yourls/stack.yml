@@ -1,9 +1,10 @@
 name: yourls
-
 services:
   yourls:
     image: yourls
     restart: always
+    depends_on:
+      - mysql
     ports:
       - 8080:8080
     environment:
@@ -17,3 +18,5 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: yourls
+    volumes:
+      - db:/var/lib/mysql

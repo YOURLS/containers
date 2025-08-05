@@ -20,3 +20,5 @@ services:
       MYSQL_DATABASE: yourls
     volumes:
       - db:/var/lib/mysql
+volumes:
+  db:

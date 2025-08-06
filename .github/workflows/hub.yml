@@ -41,7 +41,7 @@ jobs:
         with:
           repository: docker-library/official-images
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: stackbrew
           path: library

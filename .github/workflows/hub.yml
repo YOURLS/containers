@@ -41,7 +41,8 @@ jobs:
     needs:
       - stackbrew
     permissions:
-      contents: read
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:

@@ -44,3 +44,6 @@ EXPOSE 8443/tcp
 
 ENTRYPOINT ["container-entrypoint.sh"]
 CMD ["apache2-foreground"]
+
+#checkov:skip=CKV_DOCKER_2:Not implemented
+#checkov:skip=CKV_DOCKER_3:Defined upstream

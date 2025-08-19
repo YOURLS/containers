@@ -4,15 +4,17 @@ name: Analysis
 
 on:
   schedule:
-    - cron: '43 2 * * 6'
+    - cron: "43 2 * * 6"
   workflow_call:
     inputs:
       artifact:
         required: false
         default: true
-        type: string
+        type: boolean
         description: True if analysis must be run against a built artifact
   workflow_dispatch:
+
+permissions: {}
 
 jobs:
   trivy:
@@ -38,16 +40,16 @@ jobs:
         with:
           input: container-image.tar
           format: template
-          template: '@/contrib/sarif.tpl'
+          template: "@/contrib/sarif.tpl"
           output: results.sarif
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.32.0
-        if: "! inputs.artifact"
+        if: ! inputs.artifact
         with:
           image-ref: ghcr.io/${{ vars.REGISTRY_IMAGE }}:${{ matrix.variant }}
           format: template
-          template: '@/contrib/sarif.tpl'
+          template: "@/contrib/sarif.tpl"
           output: results.sarif
 
       - name: Upload scan results to GitHub Security tab

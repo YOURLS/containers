@@ -38,3 +38,6 @@ COPY container-entrypoint.sh /usr/local/bin/
 %%VARIANT_FILES%%
 ENTRYPOINT ["container-entrypoint.sh"]
 CMD ["%%CMD%%"]
+
+#checkov:skip=CKV_DOCKER_2:Not implemented
+#checkov:skip=CKV_DOCKER_3:Defined upstream

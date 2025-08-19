@@ -4,7 +4,7 @@ name: Analysis
 
 on:
   schedule:
-    - cron: '43 2 * * 6'
+    - cron: "43 2 * * 6"
   workflow_call:
     inputs:
       artifact:
@@ -40,7 +40,7 @@ jobs:
         with:
           input: container-image.tar
           format: template
-          template: '@/contrib/sarif.tpl'
+          template: "@/contrib/sarif.tpl"
           output: results.sarif
 
       - name: Run Trivy scanner
@@ -49,7 +49,7 @@ jobs:
         with:
           image-ref: ghcr.io/${{ vars.REGISTRY_IMAGE }}:${{ matrix.variant }}
           format: template
-          template: '@/contrib/sarif.tpl'
+          template: "@/contrib/sarif.tpl"
           output: results.sarif
 
       - name: Upload scan results to GitHub Security tab

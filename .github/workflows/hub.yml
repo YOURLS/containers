@@ -40,9 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - stackbrew
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -53,11 +50,19 @@ jobs:
           name: stackbrew
           path: library
 
+      - name: Generate token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          repositories: docker-library-official-images
+
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.PAT_OI_PR }}
-          push-to-fork: YOURLS/docker-library-official-images
+          token: ${{ steps.app-token.outputs.token }}
+          push-to-fork: ${{ github.repository_owner }}/docker-library-official-images
           commit-message: Update YOURLS
           title: Update YOURLS
           delete-branch: true

@@ -5,10 +5,14 @@ name: Docker Hub
 on:
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   stackbrew:
     name: Stackbrew
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v5
         with:
@@ -36,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - stackbrew
+    permissions: {}
     steps:
       - uses: actions/checkout@v5
         with:

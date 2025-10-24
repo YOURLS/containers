@@ -30,7 +30,7 @@ jobs:
       - name: Generate stackbrew
         run: bash ./bin/generate-stackbrew-library.sh > yourls
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: stackbrew
           path: yourls

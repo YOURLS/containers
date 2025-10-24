@@ -41,7 +41,7 @@ jobs:
         run: grep -oP '^ARG YOURLS_VERSION="\K[^"]+' ./images/yourls/Dockerfile.template > ./images/yourls/dist/yourls_version
 
       - name: Save files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: context-files
           path: ./images/yourls/dist
@@ -76,7 +76,7 @@ jobs:
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
 
       - name: Save image
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.variant }}-image
           path: /tmp/container-image.tar

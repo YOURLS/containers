@@ -1,8 +1,11 @@
-FROM php:8.4-apache
+FROM php:8.5-apache
 
 # install the PHP extensions we need
 RUN set -eux; \
-    docker-php-ext-install -j "$(nproc)" bcmath opcache pdo_mysql mysqli
+    docker-php-ext-install -j "$(nproc)" \
+    bcmath \
+    pdo_mysql \
+    mysqli
 
 # set recommended PHP.ini settings
 # see https://www.php.net/manual/en/opcache.installation.php
@@ -12,7 +15,7 @@ RUN { \
         echo 'opcache.max_accelerated_files=4000'; \
         echo 'opcache.revalidate_freq=2'; \
         echo 'opcache.fast_shutdown=1'; \
-    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+    } > "$PHP_INI_DIR/conf.d/opcache-recommended.ini"
 
 RUN a2enmod rewrite expires
 

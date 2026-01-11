@@ -4,7 +4,6 @@ FROM php:8.5-%%VARIANT%%
 RUN set -eux; \
     docker-php-ext-install -j "$(nproc)" \
     bcmath \
-    opcache \
     pdo_mysql \
     mysqli
 

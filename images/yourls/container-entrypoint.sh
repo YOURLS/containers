@@ -75,11 +75,19 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		cp /usr/src/yourls/user/config-container.php user/config.php
 
 		: "${YOURLS_USER:=}"
-		: "${YOURLS_PASS:=}"
-		if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}" ]; then
-			result=$(sed "s/  getenv_container('YOURLS_USER') => getenv_container('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS//&/\\&}\',/g" user/config.php)
-			echo "$result" > user/config.php
-		fi
+        : "${YOURLS_PASS:=}"
+        : "${YOURLS_PASS_FILE:=}"
+        if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}${YOURLS_PASS_FILE}" ]; then
+            if [ -n "${YOURLS_PASS_FILE}" ]; then
+                # This should retrieve the secret contents while removing any
+                # pesky whitespace/newlines...
+                YOURLS_PASS="$(cat "$YOURLS_PASS_FILE" | tr -d '[:space:]')"
+            fi
+
+            result=$(sed "s/  getenv_container('YOURLS_USER') => getenv_container('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS//&/\\&}\',/g" user/config.php)
+
+            echo "$result" > user/config.php
+        fi
 
 		if [ "$uid" = '0' ]; then
 			# attempt to ensure that user/config.php is owned by the run user

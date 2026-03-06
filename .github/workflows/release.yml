@@ -131,7 +131,7 @@ jobs:
             type=semver,enable=${{ matrix.variant == 'apache' }},pattern={{major}},priority=300,value=${{ inputs.version }}
 
       - name: Docker build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         id: build
         with:
           context: ./${{ matrix.variant }}/

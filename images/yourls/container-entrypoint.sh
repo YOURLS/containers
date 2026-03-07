@@ -74,13 +74,6 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	if [ ! -s user/config.php ]; then
 		cp /usr/src/yourls/user/config-container.php user/config.php
 
-		: "${YOURLS_USER:=}"
-		: "${YOURLS_PASS:=}"
-		if [ -n "${YOURLS_USER}" ] && [ -n "${YOURLS_PASS}" ]; then
-			result=$(sed "s/  getenv_container('YOURLS_USER') => getenv_container('YOURLS_PASS'),/  \'${YOURLS_USER}\' => \'${YOURLS_PASS//&/\\&}\',/g" user/config.php)
-			echo "$result" > user/config.php
-		fi
-
 		if [ "$uid" = '0' ]; then
 			# attempt to ensure that user/config.php is owned by the run user
 			# could be on a filesystem that doesn't allow chown (like some NFS setups)

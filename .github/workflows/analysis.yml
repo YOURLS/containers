@@ -13,6 +13,12 @@ on:
         type: boolean
         description: True if analysis must be run against a built artifact
   workflow_dispatch:
+    inputs:
+      artifact:
+        required: false
+        default: false
+        type: boolean
+        description: True if analysis must be run against a built artifact
 
 permissions: {}
 
@@ -36,7 +42,7 @@ jobs:
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.35.0
-        if: inputs.artifact
+        if: inputs.artifact == true
         with:
           input: container-image.tar
           format: template
@@ -45,7 +51,7 @@ jobs:
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.35.0
-        if: ! inputs.artifact
+        if: inputs.artifact == false
         with:
           image-ref: ghcr.io/${{ vars.REGISTRY_IMAGE }}:${{ matrix.variant }}
           format: template

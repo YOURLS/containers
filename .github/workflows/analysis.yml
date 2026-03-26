@@ -24,13 +24,13 @@ jobs:
     steps:
       - name: Retrieve image artifact
         uses: actions/download-artifact@v8
-        if: github.event_name == 'workflow_call'
+        if: github.event_name != 'workflow_dispatch'
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.35.0
-        if: github.event_name == 'workflow_call'
+        if: github.event_name != 'workflow_dispatch'
         with:
           input: container-image.tar
           format: template

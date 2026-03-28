@@ -24,13 +24,13 @@ jobs:
     steps:
       - name: Retrieve image artifact
         uses: actions/download-artifact@v8
-        if: github.event_name != 'workflow_dispatch'
+        if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
         with:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.35.0
-        if: github.event_name != 'workflow_dispatch'
+        if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
         with:
           input: container-image.tar
           format: template
@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Trivy scanner
         uses: aquasecurity/trivy-action@0.35.0
-        if: github.event_name == 'workflow_dispatch'
+        if: contains(fromJSON('["schedule", "workflow_dispatch"]'), github.event_name)
         with:
           image-ref: ghcr.io/${{ vars.REGISTRY_IMAGE }}:${{ matrix.variant }}
           format: template

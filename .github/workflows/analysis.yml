@@ -29,7 +29,7 @@ jobs:
           name: ${{ matrix.variant }}-image
 
       - name: Run Trivy scanner
-        uses: aquasecurity/trivy-action@0.35.0
+        uses: aquasecurity/trivy-action@v0.36.0
         if: contains(fromJSON('["push", "pull_request"]'), github.event_name)
         with:
           input: container-image.tar
@@ -38,7 +38,7 @@ jobs:
           output: results.sarif
 
       - name: Run Trivy scanner
-        uses: aquasecurity/trivy-action@0.35.0
+        uses: aquasecurity/trivy-action@v0.36.0
         if: contains(fromJSON('["schedule", "workflow_dispatch"]'), github.event_name)
         with:
           image-ref: ghcr.io/${{ vars.REGISTRY_IMAGE }}:${{ matrix.variant }}

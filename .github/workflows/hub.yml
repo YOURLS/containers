@@ -57,7 +57,7 @@ jobs:
           client-id: ${{ vars.BOT_CLIENT_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
           repositories: docker-library-official-images
-          permission-actions: write
+          permission-workflows: write
           permission-contents: write
 
       - name: Create pull request

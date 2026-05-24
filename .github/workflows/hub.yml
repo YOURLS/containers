@@ -65,8 +65,10 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           push-to-fork: ${{ github.repository_owner }}/docker-library-official-images
-          commit-message: Update YOURLS
+          commit-message: |
+            Update YOURLS
+
+            Automated changes from https://github.com/${{ github.repository }}.
+            Generted by [GitHub Actions run #${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
           title: Update YOURLS
           delete-branch: true
-          body: |
-            Automated changes from [${{ github.repository }}](https://github.com/${{ github.repository }}) via [GitHub Actions run #${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).

@@ -66,9 +66,6 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		echo >&2 "Complete! YOURLS has been successfully copied to $PWD"
 	fi
 
-	# if not specified, let's generate a random value
-	: "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"
-
 	# We want to copy the initial config if the actual config file doesn't already
 	# exist OR if it is an empty file (e.g. it has been created for the volume mount).
 	if [ ! -s user/config.php ]; then

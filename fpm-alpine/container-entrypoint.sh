@@ -66,9 +66,6 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 		echo >&2 "Complete! YOURLS has been successfully copied to $PWD"
 	fi
 
-	# if not specified, let's generate a random value
-	: "${YOURLS_COOKIEKEY:=$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)}"
-
 	# We want to copy the initial config if the actual config file doesn't already
 	# exist OR if it is an empty file (e.g. it has been created for the volume mount).
 	if [ ! -s user/config.php ]; then
@@ -79,27 +76,30 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 			# could be on a filesystem that doesn't allow chown (like some NFS setups)
 			chown "$user:$group" user/config.php || true
 		fi
-
-		# ability to use custom script
-		for file in /docker-entrypoint-init.d/*; do
-			echo >&2 "Running custom script $file"
-			case "$file" in
-			*.sh)
-				if [ -x "$file" ]; then
-					"$file" || exit 1
-				else
-					echo >&2 "... ignoring non-executable $file"
-				fi
-				;;
-			*.php)
-				php -f "$file"
-				;;
-			*)
-				echo >&2 "... ignoring $file"
-				;;
-			esac
-		done
 	fi
+
+	# let's generate a random value to have safe defaults if they aren't specified with environment variables
+	sed -i "s#modify this text with something random#$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)#g" user/config.php
+
+	# ability to use custom script
+	for file in /docker-entrypoint-init.d/*; do
+		echo >&2 "Running custom script $file"
+		case "$file" in
+		*.sh)
+			if [ -x "$file" ]; then
+				"$file" || exit 1
+			else
+				echo >&2 "... ignoring non-executable $file"
+			fi
+			;;
+		*.php)
+			php -f "$file"
+			;;
+		*)
+			echo >&2 "... ignoring $file"
+			;;
+		esac
+	done
 fi
 
 exec "$@"

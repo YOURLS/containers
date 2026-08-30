@@ -79,7 +79,7 @@ if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
 	fi
 
 	# let's generate a random value to have safe defaults if they aren't specified with environment variables
-	sed -i "s#modify this text with something random#$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)#g" user/config.php
+	sed -i "s#modify this text with something random#$(head -c1m /dev/urandom | sha1sum | cut -d' ' -f1)#g" user/config.php || true
 
 	# ability to use custom script
 	for file in /docker-entrypoint-init.d/*; do
